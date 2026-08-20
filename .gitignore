@@ -5,5 +5,8 @@ dist/
 coverage/
 playwright-report/
 test-results/
+lhci-reports/
+.lighthouseci/
+playwright/.cache/
 *.local
 .DS_Store
