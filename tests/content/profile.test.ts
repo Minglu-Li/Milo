@@ -8,15 +8,72 @@ describe('site content', () => {
     expect(validateContent(siteContent)).toEqual([])
   })
 
-  it('reports blank localized copy and unsafe external URLs', () => {
+  it('reports whitespace-only localized copy', () => {
     const content = makeContent({
-      github: 'javascript:alert(1)',
-      headline: { zh: '', en: 'Working products' },
+      headline: { zh: ' \t\n', en: 'Working products' },
     })
 
-    expect(validateContent(content)).toEqual([
-      'headline.zh must not be blank',
-      'github must use http or https',
-    ])
+    expect(validateContent(content)).toEqual(['headline.zh must not be blank'])
+  })
+
+  it.each([
+    ['github', (url: string) => makeContent({ github: url }), 'github must use http or https'],
+    [
+      'project repository',
+      (url: string) => {
+        const content = makeContent()
+        return makeContent({ projects: [{ ...content.projects[0], repository: url }] })
+      },
+      'projects.0.repository must use http or https',
+    ],
+    [
+      'project demo',
+      (url: string) => {
+        const content = makeContent()
+        return makeContent({ projects: [{ ...content.projects[0], demo: url }] })
+      },
+      'projects.0.demo must use http or https',
+    ],
+    [
+      'canonical URL',
+      (url: string) => {
+        const content = makeContent()
+        return makeContent({ seo: { ...content.seo, canonical: url } })
+      },
+      'seo.canonical must use http or https',
+    ],
+  ])('rejects unsafe external %s', (_field, makeInvalidContent, expectedError) => {
+    expect(validateContent(makeInvalidContent('javascript:alert(1)'))).toEqual([expectedError])
+  })
+
+  it.each([
+    ['avatar', (path: string) => makeContent({ avatar: path }), 'avatar must start with /'],
+    [
+      'resume',
+      (path: string) => {
+        const content = makeContent()
+        return makeContent({ resumes: { ...content.resumes, zh: path } })
+      },
+      'resumes.zh must start with /',
+    ],
+    [
+      'project image',
+      (path: string) => {
+        const content = makeContent()
+        return makeContent({ projects: [{ ...content.projects[0], image: path }] })
+      },
+      'projects.0.image must start with /',
+    ],
+    [
+      'Open Graph image',
+      (path: string) => {
+        const content = makeContent()
+        return makeContent({ seo: { ...content.seo, ogImage: path } })
+      },
+      'seo.ogImage must start with /',
+    ],
+  ])('rejects unsafe local %s paths', (_field, makeInvalidContent, expectedError) => {
+    expect(validateContent(makeInvalidContent('//cdn.example.test/asset.png'))).toEqual([expectedError])
+    expect(validateContent(makeInvalidContent('/assets\\asset.png'))).toEqual([expectedError])
   })
 })

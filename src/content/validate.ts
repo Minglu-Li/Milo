@@ -23,7 +23,7 @@ function validateExternalUrl(value: string, path: string, errors: string[]) {
 }
 
 function validateLocalAssetPath(value: string, path: string, errors: string[]) {
-  if (!value.startsWith('/')) {
+  if (!value.startsWith('/') || value.startsWith('//') || value.includes('\\')) {
     errors.push(`${path} must start with /`)
   }
 }
