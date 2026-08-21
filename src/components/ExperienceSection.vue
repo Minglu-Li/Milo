@@ -21,7 +21,7 @@ const { t } = useLocale()
           </header>
           <p>{{ t(experience.summary) }}</p>
           <ul>
-            <li v-for="achievement in experience.achievements" :key="t(achievement)">{{ t(achievement) }}</li>
+            <li v-for="(achievement, index) in experience.achievements" :key="`${experience.id}-${index}`">{{ t(achievement) }}</li>
           </ul>
         </article>
       </li>

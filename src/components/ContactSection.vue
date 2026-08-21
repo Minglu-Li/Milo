@@ -7,7 +7,8 @@ import type { SiteContent } from '../content/types'
 const props = defineProps<{ content: SiteContent }>()
 const { locale, t } = useLocale()
 const resumeUrl = computed(() => getResumeUrl(props.content, locale.value))
-const emailUrl = computed(() => `mailto:${props.content.email?.trim() ?? ''}`)
+const email = computed(() => props.content.email?.trim() || undefined)
+const emailUrl = computed(() => email.value ? `mailto:${encodeURIComponent(email.value).replace(/%40/gi, '@')}` : undefined)
 </script>
 
 <template>
@@ -17,7 +18,7 @@ const emailUrl = computed(() => `mailto:${props.content.email?.trim() ?? ''}`)
     </header>
     <p>{{ t(props.content.contactPrompt) }}</p>
     <p class="contact-section__links">
-      <a :href="emailUrl">{{ t(props.content.ui.actions.emailMe) }}</a>
+      <a v-if="emailUrl" :href="emailUrl">{{ email }}</a>
       <a :href="props.content.github" target="_blank" rel="noreferrer">GitHub</a>
       <a v-if="resumeUrl" :href="resumeUrl">{{ t(props.content.ui.actions.viewResume) }}</a>
     </p>

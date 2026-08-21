@@ -20,14 +20,14 @@ function markImageFailed(projectId: string): void {
     </header>
     <div class="projects-section__grid">
       <article v-for="project in props.content.projects" :key="project.id" class="project-card" data-testid="project-card">
-        <div class="project-card__cover" aria-hidden="true">
+        <div class="project-card__cover">
           <img
             v-if="project.image && !failedImages.has(project.id)"
             :src="project.image"
             :alt="t(project.title)"
             @error="markImageFailed(project.id)"
           >
-          <div v-else class="project-card__blueprint">
+          <div v-else class="project-card__blueprint" data-testid="project-blueprint" aria-hidden="true">
             <span>IDEA</span><span>→</span><span>BUILD</span><span>→</span><span>SHIP</span>
           </div>
         </div>
@@ -39,7 +39,7 @@ function markImageFailed(projectId: string): void {
             <div><dt>{{ t(props.content.ui.labels.contribution) }}</dt><dd>{{ t(project.contribution) }}</dd></div>
             <div><dt>{{ t(props.content.ui.labels.result) }}</dt><dd>{{ t(project.result) }}</dd></div>
           </dl>
-          <ul class="project-card__technologies" aria-label="Technologies">
+          <ul class="project-card__technologies">
             <li v-for="technology in project.technologies" :key="technology">{{ technology }}</li>
           </ul>
           <p class="project-card__links">
