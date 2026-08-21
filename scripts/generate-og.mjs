@@ -6,9 +6,9 @@ const svg = `<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="630" v
 <text x="76" y="118" font-family="monospace" font-size="22" letter-spacing="4" fill="#245fd4">AI AGENT · FULL-STACK ENGINEER</text>
 <text x="76" y="250" font-family="Arial,sans-serif" font-size="68" font-weight="700" fill="#14213d">I turn complex ideas</text>
 <text x="76" y="330" font-family="Arial,sans-serif" font-size="68" font-weight="700" fill="#245fd4">into reliable products.</text>
-<path d="M120 470H1080" stroke="#14213d" stroke-width="4"/><path d="M170 470L360 470L550 470L740 470L930 470" stroke="#245fd4" stroke-width="6"/>
-<g fill="#8fb6ff" stroke="#14213d" stroke-width="4"><circle cx="170" cy="470" r="16"/><circle cx="360" cy="470" r="16"/><circle cx="550" cy="470" r="16"/><circle cx="740" cy="470" r="16"/><circle cx="930" cy="470" r="16"/></g>
-<text x="170" y="530" font-family="monospace" font-size="18" text-anchor="middle" fill="#14213d">IDEA</text><text x="360" y="530" font-family="monospace" font-size="18" text-anchor="middle" fill="#14213d">AGENT</text><text x="550" y="530" font-family="monospace" font-size="18" text-anchor="middle" fill="#14213d">BUILD</text><text x="740" y="530" font-family="monospace" font-size="18" text-anchor="middle" fill="#14213d">SHIP</text>
+<path d="M120 470H1080" stroke="#14213d" stroke-width="4"/><path d="M180 470L420 470L660 470L900 470" stroke="#245fd4" stroke-width="6"/>
+<g fill="#8fb6ff" stroke="#14213d" stroke-width="4"><circle cx="180" cy="470" r="16"/><circle cx="420" cy="470" r="16"/><circle cx="660" cy="470" r="16"/><circle cx="900" cy="470" r="16"/></g>
+<text x="180" y="530" font-family="monospace" font-size="18" text-anchor="middle" fill="#14213d">IDEA</text><text x="420" y="530" font-family="monospace" font-size="18" text-anchor="middle" fill="#14213d">AGENT</text><text x="660" y="530" font-family="monospace" font-size="18" text-anchor="middle" fill="#14213d">BUILD</text><text x="900" y="530" font-family="monospace" font-size="18" text-anchor="middle" fill="#14213d">SHIP</text>
 </svg>`
 await sharp(Buffer.from(svg)).png().toFile('public/og-image.png')
 console.log('generated public/og-image.png')
