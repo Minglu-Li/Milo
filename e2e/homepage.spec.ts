@@ -1,3 +1,4 @@
+import { AxeBuilder } from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
 test('applies the approved palette to visible page surfaces', async ({ page }) => {
@@ -38,4 +39,35 @@ test.describe('with reduced motion', () => {
 
     await expect(page.locator('[data-testid="build-step"]').first()).toHaveCSS('animation-name', 'none')
   })
+})
+
+test('passes the serious and critical accessibility audit', async ({ page }) => {
+  await page.emulateMedia({ reducedMotion: 'reduce' })
+  await page.goto('/')
+  const results = await new AxeBuilder({ page }).analyze()
+  const serious = results.violations.filter((violation) => ['serious', 'critical'].includes(violation.impact ?? ''))
+  expect(serious).toEqual([])
+})
+
+test('switches visible metadata and copy to English', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('milo.locale', 'zh'))
+  await page.goto('/')
+  const menuButton = page.locator('[data-testid="menu-button"]')
+  if (await menuButton.isVisible()) await menuButton.click()
+  await page.locator('.site-header__locale').click()
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en')
+  await expect(page.locator('h1')).toContainText('I turn complex ideas')
+  await expect(page).toHaveTitle(/AI Agent & Full-stack Development/)
+  await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /Milo is a full-stack developer/)
+  await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', /AI Agent & Full-stack Development/)
+})
+
+test('keeps visible links safe and anchored', async ({ page }) => {
+  await page.goto('/')
+  for (const link of await page.locator('a:visible').all()) {
+    const href = await link.getAttribute('href')
+    if (!href) continue
+    if (href.startsWith('http')) expect(await link.getAttribute('rel')).toContain('noreferrer')
+    if (href.startsWith('#')) await expect(page.locator(href)).toHaveCount(1)
+  }
 })
