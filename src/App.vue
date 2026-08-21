@@ -12,11 +12,11 @@ import { useLocale } from './composables/useLocale'
 import { deriveVisibility } from './content/selectors'
 import { siteContent } from './content/profile'
 
-const { locale } = useLocale()
+const { locale, t } = useLocale()
 const visibility = computed(() => deriveVisibility(siteContent, locale.value))
 </script>
 
-<template>
+<template>`n  <a class="skip-link" href="#main-content">{{ t(siteContent.ui.skipToContent) }}</a>
   <SiteHeader :content="siteContent" :visibility="visibility" />
   <main id="main-content">
     <HeroSection :content="siteContent" />
@@ -28,3 +28,5 @@ const visibility = computed(() => deriveVisibility(siteContent, locale.value))
   </main>
   <SiteFooter :name="siteContent.name" />
 </template>
+
+
