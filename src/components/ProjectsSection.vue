@@ -1,0 +1,53 @@
+<script setup lang="ts">
+import { ref } from 'vue'
+import { useLocale } from '../composables/useLocale'
+import type { SiteContent } from '../content/types'
+
+const props = defineProps<{ content: SiteContent }>()
+
+const { t } = useLocale()
+const failedImages = ref(new Set<string>())
+
+function markImageFailed(projectId: string): void {
+  failedImages.value = new Set([...failedImages.value, projectId])
+}
+</script>
+
+<template>
+  <section id="projects" class="content-section projects-section" aria-labelledby="projects-heading">
+    <header class="content-section__heading">
+      <h2 id="projects-heading">{{ t(props.content.ui.sections.projects) }}</h2>
+    </header>
+    <div class="projects-section__grid">
+      <article v-for="project in props.content.projects" :key="project.id" class="project-card" data-testid="project-card">
+        <div class="project-card__cover" aria-hidden="true">
+          <img
+            v-if="project.image && !failedImages.has(project.id)"
+            :src="project.image"
+            :alt="t(project.title)"
+            @error="markImageFailed(project.id)"
+          >
+          <div v-else class="project-card__blueprint">
+            <span>IDEA</span><span>→</span><span>BUILD</span><span>→</span><span>SHIP</span>
+          </div>
+        </div>
+        <div class="project-card__body">
+          <h3>{{ t(project.title) }}</h3>
+          <p>{{ t(project.summary) }}</p>
+          <dl class="project-card__details">
+            <div><dt>{{ t(props.content.ui.labels.problem) }}</dt><dd>{{ t(project.problem) }}</dd></div>
+            <div><dt>{{ t(props.content.ui.labels.contribution) }}</dt><dd>{{ t(project.contribution) }}</dd></div>
+            <div><dt>{{ t(props.content.ui.labels.result) }}</dt><dd>{{ t(project.result) }}</dd></div>
+          </dl>
+          <ul class="project-card__technologies" aria-label="Technologies">
+            <li v-for="technology in project.technologies" :key="technology">{{ technology }}</li>
+          </ul>
+          <p class="project-card__links">
+            <a v-if="project.repository" :href="project.repository" target="_blank" rel="noreferrer">{{ t(props.content.ui.labels.repository) }}</a>
+            <a v-if="project.demo" :href="project.demo" target="_blank" rel="noreferrer">{{ t(props.content.ui.labels.demo) }}</a>
+          </p>
+        </div>
+      </article>
+    </div>
+  </section>
+</template>
