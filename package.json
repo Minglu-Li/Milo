@@ -28,15 +28,16 @@
   },
   "devDependencies": {
     "@axe-core/playwright": "^4.11.1",
+    "@lhci/cli": "^0.15.1",
     "@playwright/test": "^1.58.2",
     "@vitejs/plugin-vue": "^6.0.4",
     "@vue/test-utils": "^2.4.6",
     "jsdom": "^26.1.0",
-    "@lhci/cli": "^0.15.1",
     "sharp": "^0.34.5",
     "typescript": "^5.9.3",
     "vite": "^8.2.2",
     "vitest": "^4.1.11",
-    "vue-tsc": "^3.2.6"
+    "vue-tsc": "^3.2.6",
+    "yaml": "^2.9.0"
   }
 }
