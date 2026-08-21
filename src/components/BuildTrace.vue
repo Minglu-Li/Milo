@@ -1,14 +1,20 @@
 <script setup lang="ts">
+import { onMounted, ref } from 'vue'
 import { useLocale } from '../composables/useLocale'
 import type { BuildStep } from '../content/types'
 
 defineProps<{ steps: BuildStep[] }>()
 
 const { t } = useLocale()
+const isReducedMotion = ref(false)
+
+onMounted(() => {
+  isReducedMotion.value = typeof window.matchMedia === 'function' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+})
 </script>
 
 <template>
-  <section class="build-trace" aria-label="Build Trace">
+  <section class="build-trace" :class="{ 'is-reduced-motion': isReducedMotion }" aria-label="Build Trace">
     <ol class="build-trace__steps">
       <li
         v-for="(step, index) in steps"

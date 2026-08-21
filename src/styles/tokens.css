@@ -1,0 +1,14 @@
+:root {
+  --color-ink: #14213d;
+  --color-circuit: #245fd4;
+  --color-signal: #8fb6ff;
+  --color-ice: #eef4ff;
+  --color-paper: #fbfcff;
+  --color-muted: #52617b;
+  --content-max: 73.75rem;
+  --radius-card: 1rem;
+  --shadow-card: 0 1.25rem 3.75rem rgb(20 33 61 / 12%);
+  --font-display: 'Instrument Sans Variable', 'Noto Sans SC Variable', system-ui, sans-serif;
+  --font-body: 'Noto Sans SC Variable', system-ui, sans-serif;
+  --font-mono: 'IBM Plex Mono', ui-monospace, monospace;
+}

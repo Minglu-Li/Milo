@@ -16,9 +16,10 @@ const { locale, t } = useLocale()
 const visibility = computed(() => deriveVisibility(siteContent, locale.value))
 </script>
 
-<template>`n  <a class="skip-link" href="#main-content">{{ t(siteContent.ui.skipToContent) }}</a>
+<template>
+  <a class="skip-link" href="#main-content">{{ t(siteContent.ui.skipToContent) }}</a>
   <SiteHeader :content="siteContent" :visibility="visibility" />
-  <main id="main-content">
+  <main id="main-content" tabindex="-1">
     <HeroSection :content="siteContent" />
     <BuildTrace :steps="siteContent.buildSteps" />
     <ProjectsSection v-if="visibility.projects" :content="siteContent" />
