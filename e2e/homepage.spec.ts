@@ -13,6 +13,19 @@ test('applies the approved palette to visible page surfaces', async ({ page }) =
   await expect(page.locator('.build-trace')).toHaveCSS('color', 'rgb(251, 252, 255)')
 })
 
+test('avoids an orphan line in the desktop Chinese hero heading', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('milo.locale', 'zh'))
+  await page.setViewportSize({ width: 1440, height: 1000 })
+  await page.goto('/')
+  await page.evaluate(() => document.fonts.ready)
+
+  const lines = await page.locator('h1').evaluate((heading) => {
+    const style = getComputedStyle(heading)
+    return Math.round(heading.getBoundingClientRect().height / Number.parseFloat(style.lineHeight))
+  })
+  expect(lines).toBeLessThanOrEqual(2)
+})
+
 test('never overflows at 320px', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 800 })
   await page.goto('/')
