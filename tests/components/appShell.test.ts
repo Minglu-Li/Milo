@@ -62,6 +62,12 @@ describe('application shell', () => {
     expect(menuButton.attributes('aria-expanded')).toBe('true')
   })
 
+  it('safely encodes email URI delimiters in the hero action', () => {
+    const specialEmail = 'milo+jobs?priority#inbox@example.com'
+    const wrapper = mountShell(makeContent({ email: specialEmail }))
+
+    expect(wrapper.get('a[href="mailto:milo%2Bjobs%3Fpriority%23inbox@example.com"]').text()).toContain('邮件')
+  })
   it('shows initials after a configured portrait fails to load', async () => {
     const wrapper = mountShell(makeContent({ avatar: '/broken.png' }))
 

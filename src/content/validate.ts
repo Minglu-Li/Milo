@@ -83,6 +83,9 @@ export function validateContent(content: SiteContent): string[] {
     const path = `capabilities.${index}`
     validateLocalizedText(capability.title, `${path}.title`, errors)
     validateLocalizedText(capability.description, `${path}.description`, errors)
+    capability.items.forEach((item, itemIndex) => {
+      validateLocalizedText(item, `${path}.items.${itemIndex}`, errors)
+    })
   })
 
   content.buildSteps.forEach((step, index) => {

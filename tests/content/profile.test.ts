@@ -8,6 +8,14 @@ describe('site content', () => {
     expect(validateContent(siteContent)).toEqual([])
   })
 
+  it('reports whitespace-only localized capability items', () => {
+    const content = makeContent()
+    const capabilities = content.capabilities.map((group, index) => index === 0
+      ? { ...group, items: [{ zh: '强化学习', en: '   ' }, ...group.items.slice(1)] }
+      : group)
+
+    expect(validateContent(makeContent({ capabilities }))).toContain('capabilities.0.items.0.en must not be blank')
+  })
   it('reports whitespace-only localized copy', () => {
     const content = makeContent({
       headline: { zh: ' \t\n', en: 'Working products' },

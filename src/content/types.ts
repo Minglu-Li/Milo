@@ -31,7 +31,7 @@ export interface CapabilityGroup {
   id: string
   title: LocalizedText
   description: LocalizedText
-  items: string[]
+  items: LocalizedText[]
 }
 
 export interface BuildStep {

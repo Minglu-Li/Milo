@@ -27,7 +27,12 @@ export const siteContent: SiteContent = {
         zh: '构建由模型、工具和流程协作的智能系统。',
         en: 'Building intelligent systems where models, tools, and workflows work together.',
       },
-      items: ['AI Agent', 'LLM', 'NLP', '强化学习'],
+      items: [
+        { zh: 'AI Agent', en: 'AI Agent' },
+        { zh: 'LLM', en: 'LLM' },
+        { zh: 'NLP', en: 'NLP' },
+        { zh: '强化学习', en: 'Reinforcement Learning' },
+      ],
     },
     {
       id: 'full-stack-delivery',
@@ -36,7 +41,14 @@ export const siteContent: SiteContent = {
         zh: '从服务端到界面和部署，完成可维护的产品交付。',
         en: 'Delivering maintainable products from backend services to interfaces and deployment.',
       },
-      items: ['Java', 'Spring', 'TypeScript', 'Python', '数据库', '云部署'],
+      items: [
+        { zh: 'Java', en: 'Java' },
+        { zh: 'Spring', en: 'Spring' },
+        { zh: 'TypeScript', en: 'TypeScript' },
+        { zh: 'Python', en: 'Python' },
+        { zh: '数据库', en: 'Databases' },
+        { zh: '云部署', en: 'Cloud Deployment' },
+      ],
     },
     {
       id: 'applied-ai-domain',
@@ -45,7 +57,11 @@ export const siteContent: SiteContent = {
         zh: '把 AI 方法应用到复杂的行业问题中。',
         en: 'Applying AI methods to complex domain problems.',
       },
-      items: ['图神经网络', '电力系统', '人工智能应用'],
+      items: [
+        { zh: '图神经网络', en: 'Graph Neural Networks' },
+        { zh: '电力系统', en: 'Power Systems' },
+        { zh: '人工智能应用', en: 'AI Applications' },
+      ],
     },
   ],
   buildSteps: [

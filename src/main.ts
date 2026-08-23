@@ -21,4 +21,3 @@ const localeController = createLocaleController({
 
 app.provide(localeKey, localeController)
 app.mount('#app')
-

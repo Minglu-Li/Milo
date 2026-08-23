@@ -29,5 +29,3 @@ const visibility = computed(() => deriveVisibility(siteContent, locale.value))
   </main>
   <SiteFooter :name="siteContent.name" />
 </template>
-
-

@@ -12,7 +12,7 @@ const primaryCta = computed(() => getPrimaryCta(props.content))
 const resumeUrl = computed(() => getResumeUrl(props.content, locale.value))
 const emailUrl = computed(() => {
   const email = props.content.email?.trim()
-  return email ? `mailto:${email}` : undefined
+  return email ? `mailto:${encodeURIComponent(email).replace(/%40/gi, '@')}` : undefined
 })
 </script>
 

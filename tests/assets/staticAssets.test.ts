@@ -3,6 +3,7 @@ import { resolve } from 'node:path'
 import sharp from 'sharp'
 import { describe, expect, it } from 'vitest'
 import { siteContent } from '../../src/content/profile'
+import { getConfiguredLocalAssets } from '../../src/content/selectors'
 
 describe('static assets', () => {
   it('ships the favicon and a 1200 by 630 Open Graph image', async () => {
@@ -13,7 +14,7 @@ describe('static assets', () => {
   })
 
   it('resolves every configured local public asset', async () => {
-    const configured = [siteContent.avatar, ...Object.values(siteContent.resumes)].filter(Boolean) as string[]
+    const configured = getConfiguredLocalAssets(siteContent)
     await Promise.all(configured.map((asset) => access(resolve('public', asset.replace(/^\//, '')))))
   })
 })

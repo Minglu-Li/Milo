@@ -1,5 +1,5 @@
 import { describe, expect, it } from 'vitest'
-import { deriveVisibility, getPrimaryCta, getResumeUrl } from '../../src/content/selectors'
+import { deriveVisibility, getConfiguredLocalAssets, getPrimaryCta, getResumeUrl } from '../../src/content/selectors'
 import { makeContent } from '../fixtures/content'
 
 describe('content selectors', () => {
@@ -16,6 +16,21 @@ describe('content selectors', () => {
     expect(getResumeUrl(content, 'zh')).toBeUndefined()
   })
 
+  it('collects every configured local asset including project images', () => {
+    const content = makeContent({
+      avatar: '/portrait.jpg',
+      resumes: { zh: '/resume-zh.pdf', en: '/resume-en.pdf' },
+      projects: [{ ...makeContent().projects[0], image: '/project-cover.png' }],
+    })
+
+    expect(getConfiguredLocalAssets(content)).toEqual([
+      '/portrait.jpg',
+      '/resume-zh.pdf',
+      '/resume-en.pdf',
+      '/project-cover.png',
+      '/og-image.png',
+    ])
+  })
   it('targets the project anchor when curated projects exist', () => {
     const content = makeContent()
 

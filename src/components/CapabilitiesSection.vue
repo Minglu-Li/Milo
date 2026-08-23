@@ -16,7 +16,7 @@ const { t } = useLocale()
         <h3>{{ t(group.title) }}</h3>
         <p>{{ t(group.description) }}</p>
         <ul>
-          <li v-for="item in group.items" :key="item">{{ item }}</li>
+          <li v-for="item in group.items" :key="item.en">{{ t(item) }}</li>
         </ul>
       </article>
     </div>

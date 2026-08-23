@@ -42,6 +42,19 @@ describe('content sections', () => {
 
     expect(capabilities.findAll('[data-testid="capability-group"]')).toHaveLength(3)
     expect(capabilities.text()).toContain('AI Agent')
+    expect(capabilities.text()).toContain('Reinforcement Learning')
+    expect(capabilities.text()).toContain('Databases')
+    expect(capabilities.text()).toContain('Graph Neural Networks')
+    expect(capabilities.text()).not.toContain('强化学习')
+  })
+
+  it('renders localized capability items in Chinese', () => {
+    const capabilities = mountWithLocale(CapabilitiesSection, makeContent(), ['zh-CN'])
+
+    expect(capabilities.text()).toContain('强化学习')
+    expect(capabilities.text()).toContain('数据库')
+    expect(capabilities.text()).toContain('图神经网络')
+    expect(capabilities.text()).not.toContain('Reinforcement Learning')
   })
 
   it('renders configured contact routes', () => {

@@ -12,6 +12,15 @@ export function getResumeUrl(content: SiteContent, locale: Locale): string | und
   return value || undefined
 }
 
+export function getConfiguredLocalAssets(content: SiteContent): string[] {
+  return [
+    content.avatar,
+    content.resumes.zh,
+    content.resumes.en,
+    ...content.projects.map((project) => project.image),
+    content.seo.ogImage,
+  ].filter((asset): asset is string => Boolean(asset))
+}
 export function deriveVisibility(content: SiteContent, locale: Locale): SectionVisibility {
   return {
     projects: content.projects.length > 0,

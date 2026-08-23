@@ -26,6 +26,64 @@ test('avoids an orphan line in the desktop Chinese hero heading', async ({ page 
   expect(lines).toBeLessThanOrEqual(2)
 })
 
+test('keeps navigation visible while the page scrolls', async ({ page }) => {
+  await page.goto('/')
+
+  await expect(page.locator('[data-testid="site-header"]')).toHaveCSS('position', 'sticky')
+  await expect(page.locator('[data-testid="site-header"]')).toHaveCSS('top', '0px')
+})
+
+test('stacks hero actions across the mobile breakpoint', async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/')
+
+  const actionsWidth = await page.locator('.hero__actions').evaluate((element) => element.getBoundingClientRect().width)
+  for (const action of await page.locator('.hero__action').all()) {
+    const actionWidth = await action.evaluate((element) => element.getBoundingClientRect().width)
+    expect(Math.abs(actionsWidth - actionWidth)).toBeLessThanOrEqual(1)
+  }
+})
+
+test('gives future project links a 44px pointer target', async ({ page }) => {
+  await page.goto('/')
+  await page.evaluate(() => {
+    const links = document.createElement('p')
+    links.className = 'project-card__links'
+    links.innerHTML = '<a href="#main-content">Repository</a><a href="#main-content">Demo</a>'
+    document.body.append(links)
+  })
+
+  for (const link of await page.locator('.project-card__links a').all()) {
+    const height = await link.evaluate((element) => element.getBoundingClientRect().height)
+    expect(height).toBeGreaterThanOrEqual(44)
+  }
+})
+test('uses a focus indicator with at least three-to-one contrast on the hero surface', async ({ page }) => {
+  await page.goto('/')
+  const action = page.locator('[data-testid="primary-cta"]')
+  await action.focus()
+
+  const colors = await action.evaluate((element) => {
+    const style = getComputedStyle(element)
+    return {
+      outline: style.outlineColor,
+      surface: getComputedStyle(element.closest('.hero') as Element).backgroundColor,
+    }
+  })
+
+  function luminance(color: string): number {
+    const channels = color.match(/[\d.]+/g)?.slice(0, 3).map(Number) ?? []
+    const linear = channels.map((channel) => {
+      const value = channel / 255
+      return value <= 0.04045 ? value / 12.92 : ((value + 0.055) / 1.055) ** 2.4
+    })
+    return 0.2126 * linear[0] + 0.7152 * linear[1] + 0.0722 * linear[2]
+  }
+
+  const lighter = Math.max(luminance(colors.outline), luminance(colors.surface))
+  const darker = Math.min(luminance(colors.outline), luminance(colors.surface))
+  expect((lighter + 0.05) / (darker + 0.05)).toBeGreaterThanOrEqual(3)
+})
 test('never overflows at 320px', async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 800 })
   await page.goto('/')
@@ -70,11 +128,33 @@ test('switches visible metadata and copy to English', async ({ page }) => {
   await page.locator('.site-header__locale').click()
   await expect(page.locator('html')).toHaveAttribute('lang', 'en')
   await expect(page.locator('h1')).toContainText('I turn complex ideas')
+  await expect(page.locator('#capabilities')).toContainText('Reinforcement Learning')
+  await expect(page.locator('#capabilities')).not.toContainText('强化学习')
   await expect(page).toHaveTitle(/AI Agent & Full-stack Development/)
   await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /Milo is a full-stack developer/)
   await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', /AI Agent & Full-stack Development/)
 })
 
+test('operates the mobile menu and locale switch with the keyboard', async ({ page }) => {
+  await page.addInitScript(() => localStorage.setItem('milo.locale', 'zh'))
+  await page.setViewportSize({ width: 390, height: 844 })
+  await page.goto('/')
+
+  await page.keyboard.press('Tab')
+  await page.keyboard.press('Tab')
+  await page.keyboard.press('Tab')
+  await expect(page.locator('[data-testid="menu-button"]')).toBeFocused()
+  await page.keyboard.press('Enter')
+  await expect(page.locator('[data-testid="menu-button"]')).toHaveAttribute('aria-expanded', 'true')
+
+  await page.keyboard.press('Tab')
+  await expect(page.locator('a[href="#capabilities"]')).toBeFocused()
+  await page.keyboard.press('Tab')
+  await page.keyboard.press('Tab')
+  await expect(page.locator('.site-header__locale')).toBeFocused()
+  await page.keyboard.press('Enter')
+  await expect(page.locator('html')).toHaveAttribute('lang', 'en')
+})
 test('keeps visible links safe and anchored', async ({ page }) => {
   await page.goto('/')
   for (const link of await page.locator('a:visible').all()) {
