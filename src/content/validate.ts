@@ -23,7 +23,9 @@ function validateExternalUrl(value: string, path: string, errors: string[]) {
 }
 
 function validateLocalAssetPath(value: string, path: string, errors: string[]) {
-  if (!value.startsWith('/') || value.startsWith('//') || value.includes('\\')) {
+  const hasTraversalSegment = value.split('/').some((segment) => segment === '.' || segment === '..')
+
+  if (!value.startsWith('/') || value.startsWith('//') || value.includes('\\') || hasTraversalSegment) {
     errors.push(`${path} must start with /`)
   }
 }

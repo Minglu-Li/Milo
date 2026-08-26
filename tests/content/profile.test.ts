@@ -100,4 +100,26 @@ describe('site content', () => {
     expect(validateContent(makeInvalidContent('//cdn.example.test/asset.png'))).toEqual([expectedError])
     expect(validateContent(makeInvalidContent('/assets\\asset.png'))).toEqual([expectedError])
   })
+
+  it.each([
+    [
+      'project logo',
+      (path: string) => {
+        const content = makeContent()
+        return makeContent({ projects: [{ ...content.projects[0], logo: path }] })
+      },
+      'projects.0.logo must start with /',
+    ],
+    [
+      'experience logo',
+      (path: string) => {
+        const content = makeContent()
+        return makeContent({ experiences: [{ ...content.experiences[0], logo: path }] })
+      },
+      'experiences.0.logo must start with /',
+    ],
+  ])('rejects traversal segments in %s paths', (_field, makeInvalidContent, expectedError) => {
+    expect(validateContent(makeInvalidContent('/logos/../outside.svg'))).toEqual([expectedError])
+    expect(validateContent(makeInvalidContent('/logos/./outside.svg'))).toEqual([expectedError])
+  })
 })
