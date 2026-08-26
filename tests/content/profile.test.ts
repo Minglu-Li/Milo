@@ -73,6 +73,22 @@ describe('site content', () => {
       'projects.0.image must start with /',
     ],
     [
+      'project logo',
+      (path: string) => {
+        const content = makeContent()
+        return makeContent({ projects: [{ ...content.projects[0], logo: path }] })
+      },
+      'projects.0.logo must start with /',
+    ],
+    [
+      'experience logo',
+      (path: string) => {
+        const content = makeContent()
+        return makeContent({ experiences: [{ ...content.experiences[0], logo: path }] })
+      },
+      'experiences.0.logo must start with /',
+    ],
+    [
       'Open Graph image',
       (path: string) => {
         const content = makeContent()

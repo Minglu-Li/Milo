@@ -17,7 +17,8 @@ export function getConfiguredLocalAssets(content: SiteContent): string[] {
     content.avatar,
     content.resumes.zh,
     content.resumes.en,
-    ...content.projects.map((project) => project.image),
+    ...content.projects.flatMap((project) => [project.image, project.logo]),
+    ...content.experiences.map((experience) => experience.logo),
     content.seo.ogImage,
   ].filter((asset): asset is string => Boolean(asset))
 }

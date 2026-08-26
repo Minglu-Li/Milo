@@ -26,7 +26,7 @@ npm run test:lighthouse
 
 All public copy lives in [`src/content/profile.ts`](src/content/profile.ts). Keep Chinese and English values together in each `LocalizedText` object; components should remain presentation-only. The content map covers identity, headline, capabilities, projects, experience, contact details, resumes, and SEO metadata.
 
-A project requires `id`, `title`, `summary`, `problem`, `contribution`, `result`, and `technologies`. `repository`, `demo`, and `image` are optional. An experience requires `id`, `company`, `role`, `period`, `summary`, and `achievements`.
+A project requires `id`, `title`, `summary`, `problem`, `contribution`, `result`, and `technologies`. `repository`, `demo`, `image`, and `logo` are optional. An experience requires `id`, `company`, `role`, `period`, `summary`, and `achievements`; its `logo` is optional.
 
 The following is a documentation-only example; it is not production content and is not published:
 
@@ -40,10 +40,11 @@ const exampleProject = {
   contribution: { zh: '我的贡献', en: 'My contribution' },
   result: { zh: '可验证结果', en: 'A verifiable result' },
   technologies: ['TypeScript'],
+  logo: '/logos/projects/example-agent.svg',
 }
 ```
 
-Put real portrait, project images, and PDF files in `public/`. Only set a path such as `/portrait.jpg` or `/project.png` after that exact file exists in `public/`; root-relative paths are published as-is. Keep the two resume files separate: `public/resume-zh.pdf` and `public/resume-en.pdf`, and map them to the matching locale in `profile.ts`.
+Put real portrait, project images, project/company logos, and PDF files in `public/`. Use `/logos/projects/<project-id>.svg` and `/logos/companies/<company-id>.svg` for logos. Only set a path after that exact file exists in `public/`; root-relative paths are published as-is. Keep the two resume files separate: `public/resume-zh.pdf` and `public/resume-en.pdf`, and map them to the matching locale in `profile.ts`.
 
 Empty optional data is intentional: empty `projects` or `experiences` arrays hide their sections and navigation, while missing email, portrait, or resume values hide those actions (the portrait uses the `ML` fallback). Fixture content under `tests/` exists only for automated tests and is never copied to or published from `dist/`.
 

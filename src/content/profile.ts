@@ -121,6 +121,7 @@ export const siteContent: SiteContent = {
       result: { zh: '结果', en: 'Result' },
       repository: { zh: '仓库', en: 'Repository' },
       demo: { zh: '演示', en: 'Demo' },
+      logo: { zh: '标志', en: 'logo' },
     },
     actions: {
       viewProjects: { zh: '查看项目', en: 'View projects' },

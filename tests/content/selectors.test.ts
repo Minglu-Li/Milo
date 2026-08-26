@@ -20,7 +20,15 @@ describe('content selectors', () => {
     const content = makeContent({
       avatar: '/portrait.jpg',
       resumes: { zh: '/resume-zh.pdf', en: '/resume-en.pdf' },
-      projects: [{ ...makeContent().projects[0], image: '/project-cover.png' }],
+      projects: [{
+        ...makeContent().projects[0],
+        image: '/project-cover.png',
+        logo: '/logos/projects/agent-assistant.svg',
+      }],
+      experiences: [{
+        ...makeContent().experiences[0],
+        logo: '/logos/companies/example-technology.svg',
+      }],
     })
 
     expect(getConfiguredLocalAssets(content)).toEqual([
@@ -28,6 +36,8 @@ describe('content selectors', () => {
       '/resume-zh.pdf',
       '/resume-en.pdf',
       '/project-cover.png',
+      '/logos/projects/agent-assistant.svg',
+      '/logos/companies/example-technology.svg',
       '/og-image.png',
     ])
   })

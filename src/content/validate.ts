@@ -66,6 +66,10 @@ export function validateContent(content: SiteContent): string[] {
     if (project.image !== undefined) {
       validateLocalAssetPath(project.image, `${path}.image`, errors)
     }
+
+    if (project.logo !== undefined) {
+      validateLocalAssetPath(project.logo, `${path}.logo`, errors)
+    }
   })
 
   content.experiences.forEach((experience, index) => {
@@ -74,6 +78,11 @@ export function validateContent(content: SiteContent): string[] {
     validateLocalizedText(experience.role, `${path}.role`, errors)
     validateLocalizedText(experience.period, `${path}.period`, errors)
     validateLocalizedText(experience.summary, `${path}.summary`, errors)
+
+    if (experience.logo !== undefined) {
+      validateLocalAssetPath(experience.logo, `${path}.logo`, errors)
+    }
+
     experience.achievements.forEach((achievement, achievementIndex) => {
       validateLocalizedText(achievement, `${path}.achievements.${achievementIndex}`, errors)
     })
@@ -99,7 +108,7 @@ export function validateContent(content: SiteContent): string[] {
     validateLocalizedText(content.ui.sections[key], `ui.sections.${key}`, errors)
   }
 
-  for (const key of ['problem', 'contribution', 'result', 'repository', 'demo'] as const) {
+  for (const key of ['problem', 'contribution', 'result', 'repository', 'demo', 'logo'] as const) {
     validateLocalizedText(content.ui.labels[key], `ui.labels.${key}`, errors)
   }
 

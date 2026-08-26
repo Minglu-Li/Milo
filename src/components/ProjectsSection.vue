@@ -7,9 +7,14 @@ const props = defineProps<{ content: SiteContent }>()
 
 const { t } = useLocale()
 const failedImages = ref(new Set<string>())
+const failedLogos = ref(new Set<string>())
 
 function markImageFailed(projectId: string): void {
   failedImages.value = new Set([...failedImages.value, projectId])
+}
+
+function markLogoFailed(projectId: string): void {
+  failedLogos.value = new Set([...failedLogos.value, projectId])
 }
 </script>
 
@@ -32,7 +37,17 @@ function markImageFailed(projectId: string): void {
           </div>
         </div>
         <div class="project-card__body">
-          <h3>{{ t(project.title) }}</h3>
+          <div class="project-card__title">
+            <img
+              v-if="project.logo && !failedLogos.has(project.id)"
+              class="project-card__logo"
+              data-testid="project-logo"
+              :src="project.logo"
+              :alt="`${t(project.title)} ${t(props.content.ui.labels.logo)}`"
+              @error="markLogoFailed(project.id)"
+            >
+            <h3>{{ t(project.title) }}</h3>
+          </div>
           <p>{{ t(project.summary) }}</p>
           <dl class="project-card__details">
             <div><dt>{{ t(props.content.ui.labels.problem) }}</dt><dd>{{ t(project.problem) }}</dd></div>

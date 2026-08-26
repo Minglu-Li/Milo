@@ -37,6 +37,41 @@ describe('content sections', () => {
     expect(experience.text()).toContain('Software Engineering Intern')
   })
 
+  it('renders project and company logos with localized alternative text', () => {
+    const base = makeContent()
+    const content = makeContent({
+      projects: [{ ...base.projects[0], logo: '/logos/projects/agent-assistant.svg' }],
+      experiences: [{ ...base.experiences[0], logo: '/logos/companies/example-technology.svg' }],
+    })
+    const projects = mountWithLocale(ProjectsSection, content)
+    const experience = mountWithLocale(ExperienceSection, content)
+    const chineseProjects = mountWithLocale(ProjectsSection, content, ['zh-CN'])
+
+    expect(projects.get('[data-testid="project-logo"]').attributes('src')).toBe('/logos/projects/agent-assistant.svg')
+    expect(projects.get('[data-testid="project-logo"]').attributes('alt')).toBe('Agent Research Assistant logo')
+    expect(experience.get('[data-testid="experience-logo"]').attributes('src')).toBe('/logos/companies/example-technology.svg')
+    expect(experience.get('[data-testid="experience-logo"]').attributes('alt')).toBe('Example Technology logo')
+    expect(chineseProjects.get('[data-testid="project-logo"]').attributes('alt')).toBe('Agent 研究助手 标志')
+  })
+
+  it('removes failed logos without removing the card content', async () => {
+    const base = makeContent()
+    const content = makeContent({
+      projects: [{ ...base.projects[0], logo: '/logos/projects/broken.svg' }],
+      experiences: [{ ...base.experiences[0], logo: '/logos/companies/broken.svg' }],
+    })
+    const projects = mountWithLocale(ProjectsSection, content)
+    const experience = mountWithLocale(ExperienceSection, content)
+
+    await projects.get('[data-testid="project-logo"]').trigger('error')
+    await experience.get('[data-testid="experience-logo"]').trigger('error')
+
+    expect(projects.find('[data-testid="project-logo"]').exists()).toBe(false)
+    expect(projects.text()).toContain('Agent Research Assistant')
+    expect(experience.find('[data-testid="experience-logo"]').exists()).toBe(false)
+    expect(experience.text()).toContain('Software Engineering Intern')
+  })
+
   it('renders confirmed capability groups as lists', () => {
     const capabilities = mountWithLocale(CapabilitiesSection, makeContent())
 

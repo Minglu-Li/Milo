@@ -1,9 +1,15 @@
 <script setup lang="ts">
+import { ref } from 'vue'
 import { useLocale } from '../composables/useLocale'
 import type { SiteContent } from '../content/types'
 
 const props = defineProps<{ content: SiteContent }>()
 const { t } = useLocale()
+const failedLogos = ref(new Set<string>())
+
+function markLogoFailed(experienceId: string): void {
+  failedLogos.value = new Set([...failedLogos.value, experienceId])
+}
 </script>
 
 <template>
@@ -14,10 +20,20 @@ const { t } = useLocale()
     <ol class="experience-section__timeline">
       <li v-for="experience in props.content.experiences" :key="experience.id">
         <article class="experience-card">
-          <header>
-            <p class="experience-card__company">{{ t(experience.company) }}</p>
-            <h3>{{ t(experience.role) }}</h3>
-            <span class="experience-card__period">{{ t(experience.period) }}</span>
+          <header class="experience-card__header">
+            <img
+              v-if="experience.logo && !failedLogos.has(experience.id)"
+              class="experience-card__logo"
+              data-testid="experience-logo"
+              :src="experience.logo"
+              :alt="`${t(experience.company)} ${t(props.content.ui.labels.logo)}`"
+              @error="markLogoFailed(experience.id)"
+            >
+            <div class="experience-card__heading">
+              <p class="experience-card__company">{{ t(experience.company) }}</p>
+              <h3>{{ t(experience.role) }}</h3>
+              <span class="experience-card__period">{{ t(experience.period) }}</span>
+            </div>
           </header>
           <p>{{ t(experience.summary) }}</p>
           <ul>

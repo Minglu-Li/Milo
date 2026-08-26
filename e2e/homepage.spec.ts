@@ -44,6 +44,33 @@ test('stacks hero actions across the mobile breakpoint', async ({ page }) => {
   }
 })
 
+test('presents project and company logos as aligned module plates', async ({ page }) => {
+  await page.goto('/')
+  await page.evaluate(() => {
+    const fixture = document.createElement('div')
+    fixture.innerHTML = `
+      <div class="project-card__title">
+        <img class="project-card__logo" alt="" src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'/>" />
+        <h3>Project</h3>
+      </div>
+      <header class="experience-card__header">
+        <img class="experience-card__logo" alt="" src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'/>" />
+        <div class="experience-card__heading"><h3>Role</h3></div>
+      </header>
+    `
+    document.body.append(fixture)
+  })
+
+  await expect(page.locator('.project-card__title')).toHaveCSS('display', 'flex')
+  await expect(page.locator('.experience-card__header')).toHaveCSS('display', 'flex')
+  await expect(page.locator('.project-card__logo')).toHaveCSS('width', '48px')
+  await expect(page.locator('.project-card__logo')).toHaveCSS('height', '48px')
+  await expect(page.locator('.experience-card__logo')).toHaveCSS('width', '56px')
+  await expect(page.locator('.experience-card__logo')).toHaveCSS('height', '56px')
+  await expect(page.locator('.project-card__logo')).toHaveCSS('object-fit', 'contain')
+  await expect(page.locator('.experience-card__logo')).toHaveCSS('object-fit', 'contain')
+})
+
 test('gives future project links a 44px pointer target', async ({ page }) => {
   await page.goto('/')
   await page.evaluate(() => {
