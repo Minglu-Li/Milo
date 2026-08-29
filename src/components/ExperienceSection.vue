@@ -10,6 +10,9 @@ const failedLogos = ref(new Set<string>())
 function markLogoFailed(experienceId: string): void {
   failedLogos.value = new Set([...failedLogos.value, experienceId])
 }
+function withBasePath(path: string): string {
+  return `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`
+}
 </script>
 
 <template>
@@ -25,7 +28,7 @@ function markLogoFailed(experienceId: string): void {
               v-if="experience.logo && !failedLogos.has(experience.id)"
               class="experience-card__logo"
               data-testid="experience-logo"
-              :src="experience.logo"
+              :src="withBasePath(experience.logo)"
               :alt="`${t(experience.company)} ${t(props.content.ui.labels.logo)}`"
               @error="markLogoFailed(experience.id)"
             >

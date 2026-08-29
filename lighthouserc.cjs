@@ -1,7 +1,7 @@
 module.exports = {
   ci: {
     collect: {
-      staticDistDir: './dist',
+      // staticDistDir: './dist',
       numberOfRuns: 3,
       settings: { chromeFlags: '--no-sandbox', preset: 'desktop', throttlingMethod: 'provided' },
     },

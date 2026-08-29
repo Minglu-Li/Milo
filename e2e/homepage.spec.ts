@@ -44,7 +44,7 @@ test('stacks hero actions across the mobile breakpoint', async ({ page }) => {
   }
 })
 
-test('presents project and company logos as aligned module plates', async ({ page }) => {
+test('presents the company logo without a surrounding module plate', async ({ page }) => {
   await page.goto('/')
   await page.evaluate(() => {
     const fixture = document.createElement('div')
@@ -71,6 +71,10 @@ test('presents project and company logos as aligned module plates', async ({ pag
   await expect(fixture.locator('.experience-card__logo')).toHaveCSS('height', '56px')
   await expect(fixture.locator('.project-card__logo')).toHaveCSS('object-fit', 'contain')
   await expect(fixture.locator('.experience-card__logo')).toHaveCSS('object-fit', 'contain')
+  await expect(fixture.locator('.experience-card__logo')).toHaveCSS('background-color', 'rgba(0, 0, 0, 0)')
+  await expect(fixture.locator('.experience-card__logo')).toHaveCSS('border-top-style', 'none')
+  await expect(fixture.locator('.experience-card__logo')).toHaveCSS('border-radius', '0px')
+  await expect(fixture.locator('.experience-card__logo')).toHaveCSS('padding', '0px')
 })
 
 test('gives future project links a 44px pointer target', async ({ page }) => {
