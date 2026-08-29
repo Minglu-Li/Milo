@@ -90,6 +90,54 @@ export const siteContent: SiteContent = {
       ],
       logo: '/logos/companies/Bosch-logo.svg',
     },
+    {
+      id: 'digiwin-ai-application-development',
+      company: { zh: '鼎捷数智', en: 'Digiwin' },
+      role: {
+        zh: 'AI 应用开发实习生',
+        en: 'AI Application Development Intern',
+      },
+      period: { zh: '2025.09 – 2026.05', en: 'Sep 2025 – May 2026' },
+      summary: {
+        zh: '参与企业人才能力评估、任务拆解与人员推荐后端服务开发，将非结构化的任务信息与人才信息转化为可评估、可召回、可排序、可追踪的画像标签。负责 Agent 工作流设计、评估推荐接口、检索召回、异步写入与可观测能力建设。',
+        en: 'Contributed to backend services for enterprise talent competency assessment, task decomposition, and personnel recommendation, transforming unstructured task and talent information into profile tags that could be evaluated, retrieved, ranked, and traced. Designed Agent workflows and built assessment and recommendation APIs, retrieval pipelines, asynchronous persistence, and observability capabilities.',
+      },
+      technologies: [
+        'Python',
+        'FastAPI',
+        'LangChain',
+        'LangGraph',
+        'MySQL',
+        'Chroma',
+      ],
+      achievements: [
+        {
+          zh: '负责能力评估、任务拆解和人员推荐三个核心业务接口开发，基于 FastAPI 统一请求参数、任务状态和响应 Schema，支持前端在多轮交互中补充任务信息并获取匹配理由与推荐结果。',
+          en: 'Developed three core APIs for competency assessment, task decomposition, and personnel recommendation. Standardized request parameters, task states, and response schemas with FastAPI, enabling the frontend to supplement task information across multi-turn interactions and retrieve matching rationales and recommendations.',
+        },
+        {
+          zh: '针对能力评估与任务拆解链路中的人才信息和任务信息画像标签匹配，引入 BM25 与向量检索结合的粗召回，使用 LLM 进行精细检索，并以规则校验约束 LLM 理由输出，将标签识别 F1-score 从 73% 提升至 92%。',
+          en: 'Combined BM25 and vector search for coarse recall in profile-tag matching across competency assessment and task decomposition, then used an LLM for fine-grained retrieval with rule-based validation constraining its rationale output, improving the tag-identification F1 score from 73% to 92%.',
+        },
+        {
+          zh: '针对人员推荐中向量检索排序“相关但不精确”的问题，在召回结果上引入 Re-Rank 精排，为任务发布人提供更匹配的人才推荐，使 Top-3 接受率达到 90%。',
+          en: 'Added a Re-Rank stage on top of vector-retrieved candidates to address results that were relevant but insufficiently precise, providing task owners with better-matched talent recommendations and raising the Top-3 acceptance rate to 90%.',
+        },
+        {
+          zh: '针对能力评估耗时较长的问题，将人才优势、个人情况总结、工作偏好和用户画像分析等独立节点并发执行，减少串行处理造成的接口阻塞，使单次平均评估耗时从 30 秒降低至 15 秒。',
+          en: 'Parallelized independent nodes for talent strengths, personal summaries, work preferences, and user-profile analysis to reduce serial request blocking, cutting average evaluation latency from 30 seconds to 15 seconds.',
+        },
+        {
+          zh: '设计日志追踪机制，基于 LangChain Callback 统计各节点耗时与 Token 消耗，支持快速定位工作流瓶颈与异常。',
+          en: 'Designed a logging and tracing mechanism using LangChain callbacks to measure per-node latency and token consumption, enabling rapid diagnosis of workflow bottlenecks and failures.',
+        },
+        {
+          zh: '将评估结果与推荐结果的入库操作移出请求主链路，使用线程池异步处理持久化任务，减少接口响应阻塞。',
+          en: 'Removed assessment and recommendation persistence from the main request path and processed database writes asynchronously with a thread pool, reducing API response blocking.',
+        },
+      ],
+      logo: '/logos/companies/digiwin.svg',
+    },
   ],
   capabilities: [
     {
