@@ -85,6 +85,16 @@ export function validateContent(content: SiteContent): string[] {
       validateLocalAssetPath(experience.logo, `${path}.logo`, errors)
     }
 
+    if (experience.technologies.length === 0) {
+      errors.push(path + '.technologies must not be empty')
+    }
+
+    experience.technologies.forEach((technology, technologyIndex) => {
+      if (!technology.trim()) {
+        errors.push(path + '.technologies.' + technologyIndex + ' must not be blank')
+      }
+    })
+
     experience.achievements.forEach((achievement, achievementIndex) => {
       validateLocalizedText(achievement, `${path}.achievements.${achievementIndex}`, errors)
     })
@@ -110,7 +120,7 @@ export function validateContent(content: SiteContent): string[] {
     validateLocalizedText(content.ui.sections[key], `ui.sections.${key}`, errors)
   }
 
-  for (const key of ['problem', 'contribution', 'result', 'repository', 'demo', 'logo'] as const) {
+  for (const key of ['problem', 'contribution', 'result', 'repository', 'demo', 'logo', 'technologies'] as const) {
     validateLocalizedText(content.ui.labels[key], `ui.labels.${key}`, errors)
   }
 

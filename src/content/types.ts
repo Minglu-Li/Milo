@@ -25,6 +25,7 @@ export interface Experience {
   role: LocalizedText
   period: LocalizedText
   summary: LocalizedText
+  technologies: string[]
   achievements: LocalizedText[]
   logo?: string
 }
@@ -60,7 +61,7 @@ export interface SiteContent {
   ui: {
     nav: Record<'projects' | 'experience' | 'capabilities' | 'contact', LocalizedText>
     sections: Record<'projects' | 'experience' | 'capabilities' | 'contact', LocalizedText>
-    labels: Record<'problem' | 'contribution' | 'result' | 'repository' | 'demo' | 'logo', LocalizedText>
+    labels: Record<'problem' | 'contribution' | 'result' | 'repository' | 'demo' | 'logo' | 'technologies', LocalizedText>
     actions: Record<'viewProjects' | 'visitGitHub' | 'viewResume' | 'emailMe', LocalizedText>
     menu: LocalizedText
     language: LocalizedText

@@ -22,6 +22,7 @@ const completeContent: SiteContent = {
     role: { zh: '软件工程实习生', en: 'Software Engineering Intern' },
     period: { zh: '2025.06 – 2025.09', en: 'Jun 2025 – Sep 2025' },
     summary: { zh: '参与可靠产品功能的设计与交付。', en: 'Helped design and ship reliable product features.' },
+    technologies: ['Java', 'Vue', 'MySQL'],
     achievements: [{ zh: '完成可验证的端到端交付。', en: 'Completed a verifiable end-to-end delivery.' }],
   }],
 }

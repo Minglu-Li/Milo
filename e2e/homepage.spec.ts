@@ -48,6 +48,7 @@ test('presents project and company logos as aligned module plates', async ({ pag
   await page.goto('/')
   await page.evaluate(() => {
     const fixture = document.createElement('div')
+    fixture.dataset.testid = 'logo-module-fixture'
     fixture.innerHTML = `
       <div class="project-card__title">
         <img class="project-card__logo" alt="" src="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg'/>" />
@@ -61,14 +62,15 @@ test('presents project and company logos as aligned module plates', async ({ pag
     document.body.append(fixture)
   })
 
-  await expect(page.locator('.project-card__title')).toHaveCSS('display', 'flex')
-  await expect(page.locator('.experience-card__header')).toHaveCSS('display', 'flex')
-  await expect(page.locator('.project-card__logo')).toHaveCSS('width', '48px')
-  await expect(page.locator('.project-card__logo')).toHaveCSS('height', '48px')
-  await expect(page.locator('.experience-card__logo')).toHaveCSS('width', '56px')
-  await expect(page.locator('.experience-card__logo')).toHaveCSS('height', '56px')
-  await expect(page.locator('.project-card__logo')).toHaveCSS('object-fit', 'contain')
-  await expect(page.locator('.experience-card__logo')).toHaveCSS('object-fit', 'contain')
+  const fixture = page.getByTestId('logo-module-fixture')
+  await expect(fixture.locator('.project-card__title')).toHaveCSS('display', 'flex')
+  await expect(fixture.locator('.experience-card__header')).toHaveCSS('display', 'flex')
+  await expect(fixture.locator('.project-card__logo')).toHaveCSS('width', '48px')
+  await expect(fixture.locator('.project-card__logo')).toHaveCSS('height', '48px')
+  await expect(fixture.locator('.experience-card__logo')).toHaveCSS('width', '136px')
+  await expect(fixture.locator('.experience-card__logo')).toHaveCSS('height', '56px')
+  await expect(fixture.locator('.project-card__logo')).toHaveCSS('object-fit', 'contain')
+  await expect(fixture.locator('.experience-card__logo')).toHaveCSS('object-fit', 'contain')
 })
 
 test('gives future project links a 44px pointer target', async ({ page }) => {
@@ -174,6 +176,8 @@ test('operates the mobile menu and locale switch with the keyboard', async ({ pa
   await page.keyboard.press('Enter')
   await expect(page.locator('[data-testid="menu-button"]')).toHaveAttribute('aria-expanded', 'true')
 
+  await page.keyboard.press('Tab')
+  await expect(page.locator('a[href="#experience"]')).toBeFocused()
   await page.keyboard.press('Tab')
   await expect(page.locator('a[href="#capabilities"]')).toBeFocused()
   await page.keyboard.press('Tab')

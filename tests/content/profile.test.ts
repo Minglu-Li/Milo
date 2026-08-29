@@ -24,6 +24,20 @@ describe('site content', () => {
     expect(validateContent(content)).toEqual(['headline.zh must not be blank'])
   })
 
+  it('reports blank experience technology labels', () => {
+    const content = makeContent()
+    const experiences = [{ ...content.experiences[0], technologies: ['Java', '   '] }]
+
+    expect(validateContent(makeContent({ experiences }))).toContain('experiences.0.technologies.1 must not be blank')
+  })
+
+  it('requires every experience to name at least one technology', () => {
+    const content = makeContent()
+    const experiences = [{ ...content.experiences[0], technologies: [] }]
+
+    expect(validateContent(makeContent({ experiences }))).toContain('experiences.0.technologies must not be empty')
+  })
+
   it.each([
     ['github', (url: string) => makeContent({ github: url }), 'github must use http or https'],
     [

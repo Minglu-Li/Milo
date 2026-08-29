@@ -18,6 +18,11 @@ function mountWithLocale(component: object, content: SiteContent, languages: rea
   })
 }
 
+function mountProductionApp(languages: readonly string[] = ['en-US']) {
+  const controller = createLocaleController({ content: siteContent, storage: null, languages, document })
+  return mount(App, { global: { provide: { [localeKey as symbol]: controller } } })
+}
+
 describe('content sections', () => {
   it('renders configured projects with safe repository links', () => {
     const projects = mountWithLocale(ProjectsSection, makeContent())
@@ -35,6 +40,68 @@ describe('content sections', () => {
     expect(experience.get('section').attributes('id')).toBe('experience')
     expect(experience.findAll('article')).toHaveLength(1)
     expect(experience.text()).toContain('Software Engineering Intern')
+  })
+
+  it('presents an experience technology stack as labelled tags', () => {
+    const experience = mountWithLocale(ExperienceSection, makeContent())
+
+    expect(experience.get('[data-testid=experience-technologies]').attributes('aria-label')).toBe('Tech stack')
+    expect(experience.findAll('[data-testid=experience-technologies] li').map((tag) => tag.text())).toEqual([
+      'Java',
+      'Vue',
+      'MySQL',
+    ])
+  })
+
+  it('renders the complete Bosch internship evidence in both languages', () => {
+    const english = mountProductionApp()
+    const chinese = mountProductionApp(['zh-CN'])
+
+    expect(english.get('#experience').text()).toContain('Bosch')
+    expect(english.get('#experience').text()).toContain('Digital Manufacturing & Intelligent Strategy Intern')
+    expect(english.get('#experience').text()).toContain('Jun 2026 – Sep 2026')
+    expect(english.get('#experience').text()).toContain('Prototype Order Lifecycle Management System | Sole Full-stack Developer')
+    expect(english.get('#experience').text()).toContain('42 users')
+    expect(english.get('#experience').text()).toContain('300+ TOs')
+    expect(english.get('#experience').text()).toContain('under 5 minutes')
+    expect(english.findAll('.experience-card__achievements > li')).toHaveLength(9)
+    expect(english.findAll('[data-testid=experience-technologies] li').map((tag) => tag.text())).toEqual([
+      'Java 8',
+      'Spring Boot 2.7',
+      'Spring Security',
+      'MyBatis-Plus',
+      'MySQL',
+      'Redis',
+      'Apache POI',
+      'Vue 3',
+      'TypeScript',
+      'Pinia',
+      'Vite',
+      'OAuth 2.0/OIDC',
+      'SMTP',
+      'Nginx',
+      'Linux',
+      'systemd',
+      'Python',
+    ])
+    expect(english.get('[data-testid=experience-logo]').attributes('src')).toBe('/logos/companies/Bosch-logo.svg')
+
+    expect(chinese.get('#experience').text()).toContain('博世')
+    expect(chinese.get('#experience').text()).toContain('数字制造与智能化战略实习生')
+    expect(chinese.get('#experience').text()).toContain('2026.06 – 2026.09')
+    expect(chinese.get('#experience').text()).toContain('试制订单全生命周期管理系统｜独立全栈开发')
+    expect(chinese.get('#experience').text()).toContain('42 名用户')
+    expect(chinese.get('#experience').text()).toContain('300+ 条 TO 单')
+    expect(chinese.get('#experience').text()).toContain('平均 5 分钟内')
+    expect(chinese.findAll('.experience-card__achievements > li')).toHaveLength(9)
+
+    for (const evidence of ['four product categories', 'Apache POI', 'QR code generation', 'field-level audit logs', 'database unique constraints', 'Microsoft JWKS', 'BFF-style', 'no major business incidents', 'Windows Credential Manager']) {
+      expect(english.get('#experience').text()).toContain(evidence)
+    }
+
+    for (const evidence of ['四类产品', 'Apache POI', '二维码生成', '字段级审计日志', '数据库唯一约束', 'Microsoft JWKS', 'BFF 式', '无重大业务故障', 'Windows Credential Manager']) {
+      expect(chinese.get('#experience').text()).toContain(evidence)
+    }
   })
 
   it('renders project and company logos with localized alternative text', () => {
@@ -130,12 +197,12 @@ describe('content sections', () => {
     expect(projects.text()).toContain('Agent 研究助手')
   })
 
-  it('keeps fixture-only sections out of the production app while retaining capabilities', () => {
+  it('shows the production experience while keeping unavailable sections out of the app', () => {
     const controller = createLocaleController({ content: siteContent, storage: null, languages: ['en-US'], document })
     const app = mount(App, { global: { provide: { [localeKey as symbol]: controller } } })
 
     expect(app.find('#projects').exists()).toBe(false)
-    expect(app.find('#experience').exists()).toBe(false)
+    expect(app.find('#experience').exists()).toBe(true)
     expect(app.find('#contact').exists()).toBe(false)
     expect(app.find('#capabilities').exists()).toBe(true)
   })

@@ -26,7 +26,7 @@ npm run test:lighthouse
 
 All public copy lives in [`src/content/profile.ts`](src/content/profile.ts). Keep Chinese and English values together in each `LocalizedText` object; components should remain presentation-only. The content map covers identity, headline, capabilities, projects, experience, contact details, resumes, and SEO metadata.
 
-A project requires `id`, `title`, `summary`, `problem`, `contribution`, `result`, and `technologies`. `repository`, `demo`, `image`, and `logo` are optional. An experience requires `id`, `company`, `role`, `period`, `summary`, and `achievements`; its `logo` is optional.
+A project requires `id`, `title`, `summary`, `problem`, `contribution`, `result`, and `technologies`. `repository`, `demo`, `image`, and `logo` are optional. An experience requires `id`, `company`, `role`, `period`, `summary`, `technologies`, and `achievements`; its `logo` is optional.
 
 The following is a documentation-only example; it is not production content and is not published:
 
