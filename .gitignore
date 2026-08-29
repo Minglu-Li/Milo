@@ -10,3 +10,4 @@ lhci-reports/
 playwright/.cache/
 *.local
 .DS_Store
+/docs/*
