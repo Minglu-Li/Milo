@@ -30,6 +30,14 @@ function validateLocalAssetPath(value: string, path: string, errors: string[]) {
   }
 }
 
+function validateAssetOrExternalUrl(value: string, path: string, errors: string[]) {
+  if (value.startsWith('/')) {
+    validateLocalAssetPath(value, path, errors)
+  } else {
+    validateExternalUrl(value, path, errors)
+  }
+}
+
 export function validateContent(content: SiteContent): string[] {
   const errors: string[] = []
 
@@ -124,7 +132,7 @@ export function validateContent(content: SiteContent): string[] {
       validateLocalAssetPath(post.image, `${path}.image`, errors)
     }
     if (post.href !== undefined) {
-      validateLocalAssetPath(post.href, `${path}.href`, errors)
+      validateAssetOrExternalUrl(post.href, `${path}.href`, errors)
     }
   })
 
@@ -141,7 +149,7 @@ export function validateContent(content: SiteContent): string[] {
       validateLocalAssetPath(interest.image, `${path}.image`, errors)
     }
     if (interest.href !== undefined) {
-      validateLocalAssetPath(interest.href, `${path}.href`, errors)
+      validateAssetOrExternalUrl(interest.href, `${path}.href`, errors)
     }
   })
 

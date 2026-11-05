@@ -57,6 +57,28 @@ describe('site content', () => {
     expect(validateContent(content)).toContain('interests.0.description.zh must not be blank')
   })
 
+  it('accepts external article and interest links', () => {
+    const content = makeContent({
+      posts: [{
+        id: 'first-note',
+        title: { zh: '第一篇', en: 'First note' },
+        excerpt: { zh: '摘要', en: 'Excerpt' },
+        date: '2026-11-06',
+        tags: ['AI'],
+        href: 'https://example.com/first-note',
+      }],
+      interests: [{
+        id: 'cycling',
+        title: { zh: '骑行', en: 'Cycling' },
+        description: { zh: '描述', en: 'Description' },
+        tags: ['life'],
+        href: 'https://example.com/cycling',
+      }],
+    })
+
+    expect(validateContent(content)).toEqual([])
+  })
+
   it('reports blank experience technology labels', () => {
     const content = makeContent()
     const experiences = [{ ...content.experiences[0], technologies: ['Java', '   '] }]
