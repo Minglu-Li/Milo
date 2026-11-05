@@ -1,13 +1,19 @@
 :root {
-  --color-ink: #14213d;
-  --color-circuit: #245fd4;
-  --color-signal: #8fb6ff;
-  --color-ice: #eef4ff;
-  --color-paper: #fbfcff;
-  --color-muted: #52617b;
-  --content-max: 73.75rem;
-  --radius-card: 1rem;
-  --shadow-card: 0 1.25rem 3.75rem rgb(20 33 61 / 12%);
+  --color-ink: #25231f;
+  --color-ink-soft: #413c35;
+  --color-brick: #a84d38;
+  --color-brick-dark: #803925;
+  --color-olive: #7b8065;
+  --color-sun: #e9c46a;
+  --color-paper: #f7f3ec;
+  --color-surface: #fffdf8;
+  --color-wash: #efe8dc;
+  --color-line: #d8cfc1;
+  --color-muted: #625b52;
+  --content-max: 76rem;
+  --radius-card: 1.15rem;
+  --radius-small: .55rem;
+  --shadow-card: 0 1.25rem 3rem rgb(37 35 31 / 10%);
   --font-display: 'Instrument Sans Variable', 'Noto Sans SC Variable', system-ui, sans-serif;
   --font-body: 'Noto Sans SC Variable', system-ui, sans-serif;
   --font-mono: 'IBM Plex Mono', ui-monospace, monospace;

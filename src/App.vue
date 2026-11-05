@@ -1,6 +1,5 @@
 <script setup lang="ts">
 import { computed } from 'vue'
-import BuildTrace from './components/BuildTrace.vue'
 import CapabilitiesSection from './components/CapabilitiesSection.vue'
 import ContactSection from './components/ContactSection.vue'
 import ExperienceSection from './components/ExperienceSection.vue'
@@ -23,7 +22,6 @@ const visibility = computed(() => deriveVisibility(siteContent, locale.value))
   <SiteHeader :content="siteContent" :visibility="visibility" />
   <main id="main-content" tabindex="-1">
     <HeroSection :content="siteContent" />
-    <BuildTrace :steps="siteContent.buildSteps" />
     <ProjectsSection v-if="visibility.projects" :content="siteContent" />
     <ExperienceSection v-if="visibility.experience" :content="siteContent" />
     <NotesSection v-if="visibility.notes" :content="siteContent" />

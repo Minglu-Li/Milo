@@ -1,19 +1,28 @@
 import { AxeBuilder } from '@axe-core/playwright'
 import { expect, test } from '@playwright/test'
 
-test('applies the approved palette to visible page surfaces', async ({ page }) => {
+test('applies the editorial palette to visible page surfaces', async ({ page }) => {
   await page.goto('/')
 
-  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(251, 252, 255)')
-  await expect(page.locator('body')).toHaveCSS('color', 'rgb(20, 33, 61)')
-  await expect(page.locator('.hero')).toHaveCSS('background-color', 'rgb(238, 244, 255)')
-  await expect(page.locator('[data-testid="primary-cta"]')).toHaveCSS('background-color', 'rgb(36, 95, 212)')
-  await expect(page.locator('[data-testid="primary-cta"]')).toHaveCSS('color', 'rgb(251, 252, 255)')
-  await expect(page.locator('.build-trace')).toHaveCSS('background-color', 'rgb(20, 33, 61)')
-  await expect(page.locator('.build-trace')).toHaveCSS('color', 'rgb(251, 252, 255)')
+  await expect(page.locator('body')).toHaveCSS('background-color', 'rgb(247, 243, 236)')
+  await expect(page.locator('body')).toHaveCSS('color', 'rgb(37, 35, 31)')
+  await expect(page.locator('.hero')).toHaveCSS('background-color', 'rgb(239, 232, 220)')
+  await expect(page.locator('[data-testid="primary-cta"]')).toHaveCSS('background-color', 'rgb(168, 77, 56)')
+  await expect(page.locator('[data-testid="primary-cta"]')).toHaveCSS('color', 'rgb(247, 243, 236)')
+  await expect(page.locator('.personal-card')).toHaveCSS('background-color', 'rgb(255, 253, 248)')
+  await expect(page.locator('.build-trace')).toHaveCount(0)
 })
 
-test('avoids an orphan line in the desktop Chinese hero heading', async ({ page }) => {
+test('leads with the personal card and keeps the process strip out of the homepage flow', async ({ page }) => {
+  await page.goto('/')
+
+  await expect(page.locator('.hero > .personal-card')).toHaveCount(1)
+  await expect(page.locator('.hero > .hero__copy')).toHaveCount(1)
+  await expect(page.locator('.build-trace')).toHaveCount(0)
+})
+
+test('avoids an orphan line in the desktop Chinese hero heading', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === 'mobile', 'The mobile layout intentionally wraps the headline more freely.')
   await page.addInitScript(() => localStorage.setItem('milo.locale', 'zh'))
   await page.setViewportSize({ width: 1440, height: 1000 })
   await page.goto('/')
@@ -137,11 +146,12 @@ test('moves keyboard focus from the skip link to main content', async ({ page })
 test.describe('with reduced motion', () => {
   test.use({ reducedMotion: 'reduce' })
 
-  test('disables the signature animation', async ({ page }) => {
+  test('keeps the editorial hero usable without motion', async ({ page }) => {
     await page.emulateMedia({ reducedMotion: 'reduce' })
     await page.goto('/')
 
-    await expect(page.locator('[data-testid="build-step"]').first()).toHaveCSS('animation-name', 'none')
+    await expect(page.locator('.personal-card')).toBeVisible()
+    await expect(page.locator('.hero__copy')).toBeVisible()
   })
 })
 

@@ -2,7 +2,6 @@ import { mount } from '@vue/test-utils'
 import { computed, defineComponent, h, nextTick } from 'vue'
 import { describe, expect, it } from 'vitest'
 import App from '../../src/App.vue'
-import BuildTrace from '../../src/components/BuildTrace.vue'
 import HeroSection from '../../src/components/HeroSection.vue'
 import SiteHeader from '../../src/components/SiteHeader.vue'
 import { createLocaleController, localeKey } from '../../src/composables/useLocale'
@@ -24,7 +23,6 @@ function mountShell(content: SiteContent) {
         h(SiteHeader, { content, visibility: visibility.value }),
         h('main', { id: 'main-content' }, [
           h(HeroSection, { content }),
-          h(BuildTrace, { steps: content.buildSteps }),
         ]),
       ])
     },
@@ -44,7 +42,7 @@ describe('application shell', () => {
     expect(wrapper.find('a[href="#projects"]').exists()).toBe(false)
     expect(wrapper.get('.personal-card__portrait img').attributes('src')).toBe('/portrait.png')
     expect(wrapper.find('[data-testid="portrait-fallback"]').exists()).toBe(false)
-    expect(wrapper.findAll('[data-testid="build-step"]')).toHaveLength(4)
+    expect(wrapper.find('.build-trace').exists()).toBe(false)
   })
 
   it('shows project navigation and a project CTA when curated work is available', () => {

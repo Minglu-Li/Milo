@@ -2,20 +2,24 @@
 import { computed } from 'vue'
 import { useLocale } from '../composables/useLocale'
 import { getPrimaryCta } from '../content/selectors'
-import type { SiteContent } from '../content/types'
+import type { LocalizedText, SiteContent } from '../content/types'
 import PersonalCard from './PersonalCard.vue'
 
 const props = defineProps<{ content: SiteContent }>()
 
 const { t } = useLocale()
 const primaryCta = computed(() => getPrimaryCta(props.content))
+const heroKicker: LocalizedText = {
+  zh: '个人主页 / AI 应用 / 持续记录',
+  en: 'Personal site / AI applications / Notes',
+}
 </script>
 
 <template>
   <section class="hero" aria-labelledby="hero-heading">
     <PersonalCard :content="props.content" />
     <div class="hero__copy">
-      <p class="hero__role">Personal site / AI applications / Notes</p>
+      <p class="hero__role">{{ t(heroKicker) }}</p>
       <h1 id="hero-heading">{{ t(props.content.headline) }}</h1>
       <p class="hero__intro">{{ t(props.content.intro) }}</p>
       <div class="hero__actions" aria-label="Actions">
