@@ -42,6 +42,14 @@ export function validateContent(content: SiteContent): string[] {
     validateLocalAssetPath(content.avatar, 'avatar', errors)
   }
 
+  if (content.location !== undefined) {
+    validateLocalizedText(content.location, 'location', errors)
+  }
+
+  if (content.status !== undefined) {
+    validateLocalizedText(content.status, 'status', errors)
+  }
+
   for (const locale of ['zh', 'en'] as const) {
     const resume = content.resumes[locale]
     if (resume !== undefined) {
@@ -98,6 +106,43 @@ export function validateContent(content: SiteContent): string[] {
     experience.achievements.forEach((achievement, achievementIndex) => {
       validateLocalizedText(achievement, `${path}.achievements.${achievementIndex}`, errors)
     })
+  })
+
+  content.posts.forEach((post, index) => {
+    const path = `posts.${index}`
+    validateLocalizedText(post.title, `${path}.title`, errors)
+    validateLocalizedText(post.excerpt, `${path}.excerpt`, errors)
+    if (!post.date.trim()) {
+      errors.push(`${path}.date must not be blank`)
+    }
+    post.tags.forEach((tag, tagIndex) => {
+      if (!tag.trim()) {
+        errors.push(`${path}.tags.${tagIndex} must not be blank`)
+      }
+    })
+    if (post.image !== undefined) {
+      validateLocalAssetPath(post.image, `${path}.image`, errors)
+    }
+    if (post.href !== undefined) {
+      validateLocalAssetPath(post.href, `${path}.href`, errors)
+    }
+  })
+
+  content.interests.forEach((interest, index) => {
+    const path = `interests.${index}`
+    validateLocalizedText(interest.title, `${path}.title`, errors)
+    validateLocalizedText(interest.description, `${path}.description`, errors)
+    interest.tags.forEach((tag, tagIndex) => {
+      if (!tag.trim()) {
+        errors.push(`${path}.tags.${tagIndex} must not be blank`)
+      }
+    })
+    if (interest.image !== undefined) {
+      validateLocalAssetPath(interest.image, `${path}.image`, errors)
+    }
+    if (interest.href !== undefined) {
+      validateLocalAssetPath(interest.href, `${path}.href`, errors)
+    }
   })
 
   content.capabilities.forEach((capability, index) => {

@@ -3,6 +3,7 @@ import type { SiteContent } from './types'
 export const siteContent: SiteContent = {
   name: 'Milo',
   initials: 'ML',
+  avatar: '/portrait.png',
   role: {
     zh: 'AI Agent 应用开发者 / 全栈工程师',
     en: 'AI Agent Application Developer / Full-stack Engineer',
@@ -18,6 +19,8 @@ export const siteContent: SiteContent = {
   github: 'https://github.com/Minglu-Li',
   resumes: {},
   projects: [],
+  posts: [],
+  interests: [],
   experiences: [
     {
       id: 'bosch-digital-manufacturing',
@@ -84,7 +87,7 @@ export const siteContent: SiteContent = {
           en: 'Built the Vue SPA with Vite/npm and served it through Nginx; packaged the backend JAR with Maven, managed the Linux service with systemd, and coordinated HTTPS certificate issuance and renewal with plant operations. The system served 42 users and managed 300+ TOs in roughly two months in production with no major business incidents.',
         },
         {
-          zh: '建设参数部门 Agent 体系，深入梳理样品车间多层物料管理业务，将 BOM 展开、库存分层、缺口传递及采购/自制判定规则编码为企业 AI Skill，通过 LLM 编排与 Python 确定性计算解耦及 Windows Credential Manager 凭据隔离，在保障结果稳定与数据安全的同时，将约 500 项物料的处理时间从平均 30 分钟缩短至平均 5 分钟内，服务约 10 名工程师。',
+          zh: '深入梳理样品车间多层物料管理业务，将 BOM 展开、库存分层、缺口传递及采购/自制判定规则编码为企业 AI Skill，通过 LLM 编排与 Python 确定性计算解耦及 Windows Credential Manager 凭据隔离，降低上下文数据泄漏风险，保障结果稳定与数据安全；将约 500 项物料的处理时间从平均 30 分钟缩短至平均 5 分钟内，服务约 10 名工程师。',
           en: 'Built an Agent system for the parameter team by modeling multi-level material management in the prototype workshop and encoding BOM explosion, inventory layering, shortage propagation, and buy-or-make rules as enterprise AI Skills. Decoupled LLM orchestration from deterministic Python computation and isolated credentials with Windows Credential Manager, reducing processing time for about 500 material items from an average of 30 minutes to under 5 minutes while serving about 10 engineers.',
         },
       ],
@@ -226,12 +229,16 @@ export const siteContent: SiteContent = {
     nav: {
       projects: { zh: '项目', en: 'Projects' },
       experience: { zh: '经历', en: 'Experience' },
+      notes: { zh: '文章', en: 'Notes' },
+      interests: { zh: '兴趣', en: 'Life' },
       capabilities: { zh: '能力', en: 'Capabilities' },
       contact: { zh: '联系', en: 'Contact' },
     },
     sections: {
       projects: { zh: '代表项目', en: 'Selected Work' },
       experience: { zh: '经历', en: 'Experience' },
+      notes: { zh: '文章', en: 'Notes' },
+      interests: { zh: '兴趣切片', en: 'Life Notes' },
       capabilities: { zh: '能力地图', en: 'How I Build' },
       contact: { zh: '联系', en: 'Contact' },
     },

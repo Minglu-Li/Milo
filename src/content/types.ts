@@ -5,6 +5,31 @@ export interface LocalizedText {
   en: string
 }
 
+export interface PersonalLink {
+  label: LocalizedText
+  href: string
+  external?: boolean
+}
+
+export interface BlogPost {
+  id: string
+  title: LocalizedText
+  excerpt: LocalizedText
+  date: string
+  tags: string[]
+  href?: string
+  image?: string
+}
+
+export interface Interest {
+  id: string
+  title: LocalizedText
+  description: LocalizedText
+  tags: string[]
+  href?: string
+  image?: string
+}
+
 export interface Project {
   id: string
   title: LocalizedText
@@ -52,15 +77,19 @@ export interface SiteContent {
   github: string
   email?: string
   avatar?: string
+  location?: LocalizedText
+  status?: LocalizedText
   resumes: Partial<Record<Locale, string>>
   projects: Project[]
   experiences: Experience[]
+  posts: BlogPost[]
+  interests: Interest[]
   capabilities: CapabilityGroup[]
   buildSteps: BuildStep[]
   contactPrompt: LocalizedText
   ui: {
-    nav: Record<'projects' | 'experience' | 'capabilities' | 'contact', LocalizedText>
-    sections: Record<'projects' | 'experience' | 'capabilities' | 'contact', LocalizedText>
+    nav: Record<'projects' | 'experience' | 'notes' | 'interests' | 'capabilities' | 'contact', LocalizedText>
+    sections: Record<'projects' | 'experience' | 'notes' | 'interests' | 'capabilities' | 'contact', LocalizedText>
     labels: Record<'problem' | 'contribution' | 'result' | 'repository' | 'demo' | 'logo' | 'technologies', LocalizedText>
     actions: Record<'viewProjects' | 'visitGitHub' | 'viewResume' | 'emailMe', LocalizedText>
     menu: LocalizedText

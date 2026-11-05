@@ -24,6 +24,39 @@ describe('site content', () => {
     expect(validateContent(content)).toEqual(['headline.zh must not be blank'])
   })
 
+  it('reports whitespace-only personal card fields', () => {
+    const content = makeContent({
+      location: { zh: ' ', en: 'Shanghai' },
+      status: { zh: '当前状态', en: '\t' },
+    })
+
+    expect(validateContent(content)).toEqual([
+      'location.zh must not be blank',
+      'status.en must not be blank',
+    ])
+  })
+
+  it('reports whitespace-only article and interest copy', () => {
+    const content = makeContent({
+      posts: [{
+        id: 'first-note',
+        title: { zh: ' ', en: 'First note' },
+        excerpt: { zh: '摘要', en: 'Excerpt' },
+        date: '2026-11-06',
+        tags: ['AI'],
+      }],
+      interests: [{
+        id: 'cycling',
+        title: { zh: '骑行', en: 'Cycling' },
+        description: { zh: ' ', en: 'Description' },
+        tags: ['life'],
+      }],
+    })
+
+    expect(validateContent(content)).toContain('posts.0.title.zh must not be blank')
+    expect(validateContent(content)).toContain('interests.0.description.zh must not be blank')
+  })
+
   it('reports blank experience technology labels', () => {
     const content = makeContent()
     const experiences = [{ ...content.experiences[0], technologies: ['Java', '   '] }]
@@ -109,6 +142,32 @@ describe('site content', () => {
         return makeContent({ seo: { ...content.seo, ogImage: path } })
       },
       'seo.ogImage must start with /',
+    ],
+    [
+      'article image',
+      (path: string) => {
+        const content = makeContent()
+        return makeContent({ posts: [{
+          id: 'first-note',
+          title: { zh: '第一篇', en: 'First note' },
+          excerpt: { zh: '摘要', en: 'Excerpt' },
+          date: '2026-11-06',
+          tags: ['AI'],
+          image: path,
+        }] })
+      },
+      'posts.0.image must start with /',
+    ],
+    [
+      'interest image',
+      (path: string) => makeContent({ interests: [{
+        id: 'cycling',
+        title: { zh: '骑行', en: 'Cycling' },
+        description: { zh: '描述', en: 'Description' },
+        tags: ['life'],
+        image: path,
+      }] }),
+      'interests.0.image must start with /',
     ],
   ])('rejects unsafe local %s paths', (_field, makeInvalidContent, expectedError) => {
     expect(validateContent(makeInvalidContent('//cdn.example.test/asset.png'))).toEqual([expectedError])
