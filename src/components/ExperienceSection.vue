@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useLocale } from '../composables/useLocale'
+import { withBasePath } from '../content/selectors'
 import type { SiteContent } from '../content/types'
 
 const props = defineProps<{ content: SiteContent }>()
@@ -9,9 +10,6 @@ const failedLogos = ref(new Set<string>())
 
 function markLogoFailed(experienceId: string): void {
   failedLogos.value = new Set([...failedLogos.value, experienceId])
-}
-function withBasePath(path: string): string {
-  return `${import.meta.env.BASE_URL}${path.replace(/^\/+/, '')}`
 }
 </script>
 

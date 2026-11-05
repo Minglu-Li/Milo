@@ -4,6 +4,9 @@ import App from '../../src/App.vue'
 import CapabilitiesSection from '../../src/components/CapabilitiesSection.vue'
 import ContactSection from '../../src/components/ContactSection.vue'
 import ExperienceSection from '../../src/components/ExperienceSection.vue'
+import InterestsSection from '../../src/components/InterestsSection.vue'
+import NotesSection from '../../src/components/NotesSection.vue'
+import PersonalCard from '../../src/components/PersonalCard.vue'
 import ProjectsSection from '../../src/components/ProjectsSection.vue'
 import { createLocaleController, localeKey } from '../../src/composables/useLocale'
 import { siteContent } from '../../src/content/profile'
@@ -24,6 +27,52 @@ function mountProductionApp(languages: readonly string[] = ['en-US']) {
 }
 
 describe('content sections', () => {
+  it('renders a complete bilingual personal card with profile links', () => {
+    const content = makeContent({
+      location: { zh: '上海', en: 'Shanghai' },
+      status: { zh: '寻找 AI 应用机会', en: 'Open to AI product roles' },
+    })
+    const card = mountWithLocale(PersonalCard, content)
+
+    expect(card.get('[data-testid="personal-card"]').text()).toContain('Shanghai')
+    expect(card.text()).toContain('Open to AI product roles')
+    expect(card.get('a[href="mailto:milo@example.com"]').exists()).toBe(true)
+    expect(card.get('a[href="https://github.com/Minglu-Li"]').attributes('target')).toBe('_blank')
+    expect(card.get('a[href="/resume-en.pdf"]').text()).toContain('View resume')
+  })
+
+  it('renders localized notes and interests with configured media', () => {
+    const content = makeContent({
+      posts: [{
+        id: 'first-note',
+        title: { zh: '第一篇文章', en: 'First note' },
+        excerpt: { zh: '中文摘要', en: 'English excerpt' },
+        date: '2026-11-06',
+        tags: ['AI', 'Build'],
+        href: 'https://example.com/first-note',
+        image: '/notes/first-note.png',
+      }],
+      interests: [{
+        id: 'cycling',
+        title: { zh: '骑行', en: 'Cycling' },
+        description: { zh: '沿江骑行', en: 'Riding by the river' },
+        tags: ['weekend'],
+        href: 'https://example.com/cycling',
+        image: '/interests/cycling.png',
+      }],
+    })
+
+    const notes = mountWithLocale(NotesSection, content)
+    const interests = mountWithLocale(InterestsSection, content)
+
+    expect(notes.get('#notes').text()).toContain('First note')
+    expect(notes.get('img').attributes('src')).toBe('/notes/first-note.png')
+    expect(notes.get('a[href="https://example.com/first-note"]').attributes('rel')).toBe('noreferrer')
+    expect(interests.get('#interests').text()).toContain('Cycling')
+    expect(interests.get('img').attributes('src')).toBe('/interests/cycling.png')
+    expect(interests.get('a[href="https://example.com/cycling"]').attributes('target')).toBe('_blank')
+  })
+
   it('renders configured projects with safe repository links', () => {
     const projects = mountWithLocale(ProjectsSection, makeContent())
 
@@ -208,9 +257,9 @@ describe('content sections', () => {
     const contact = mountWithLocale(ContactSection, makeContent())
 
     expect(contact.get('a[href="mailto:milo@example.com"]').exists()).toBe(true)
-    expect(contact.get('a[href="mailto:milo@example.com"]').text()).toBe('milo@example.com')
-    expect(contact.get('a[href="https://github.com/Minglu-Li"]').attributes('target')).toBe('_blank')
-    expect(contact.get('a[href="https://github.com/Minglu-Li"]').attributes('rel')).toBe('noreferrer')
+    expect(contact.get('a[href="mailto:milo@example.com"]').text()).toBe('Email me')
+    expect(contact.find('a[href="https://github.com/Minglu-Li"]').exists()).toBe(false)
+    expect(contact.find('a[href="/resume-en.pdf"]').exists()).toBe(false)
   })
 
   it('omits absent email and safely encodes email URI delimiters', () => {
@@ -219,7 +268,7 @@ describe('content sections', () => {
     const encodedEmail = mountWithLocale(ContactSection, makeContent({ email: specialEmail }))
 
     expect(absentEmail.find('a[href^="mailto:"]').exists()).toBe(false)
-    expect(encodedEmail.get('a[href="mailto:milo%2Bjobs%3Fpriority%23inbox@example.com"]').text()).toBe(specialEmail)
+    expect(encodedEmail.get('a[href="mailto:milo%2Bjobs%3Fpriority%23inbox@example.com"]').text()).toBe('Email me')
   })
 
   it('exposes configured project images and restores the decorative fallback on error', async () => {
@@ -249,6 +298,8 @@ describe('content sections', () => {
     expect(app.find('#projects').exists()).toBe(false)
     expect(app.find('#experience').exists()).toBe(true)
     expect(app.find('#contact').exists()).toBe(false)
+    expect(app.find('#notes').exists()).toBe(false)
+    expect(app.find('#interests').exists()).toBe(false)
     expect(app.find('#capabilities').exists()).toBe(true)
   })
 })

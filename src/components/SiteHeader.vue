@@ -39,6 +39,8 @@ function toggleLocale(): void {
       <div id="primary-navigation" class="site-header__links" :class="{ 'is-open': menuOpen }">
         <a v-if="props.visibility.projects" href="#projects" @click="closeMenu">{{ t(props.content.ui.nav.projects) }}</a>
         <a v-if="props.visibility.experience" href="#experience" @click="closeMenu">{{ t(props.content.ui.nav.experience) }}</a>
+        <a v-if="props.visibility.notes" href="#notes" @click="closeMenu">{{ t(props.content.ui.nav.notes) }}</a>
+        <a v-if="props.visibility.interests" href="#interests" @click="closeMenu">{{ t(props.content.ui.nav.interests) }}</a>
         <a href="#capabilities" @click="closeMenu">{{ t(props.content.ui.nav.capabilities) }}</a>
         <a v-if="props.visibility.contact" href="#contact" @click="closeMenu">{{ t(props.content.ui.nav.contact) }}</a>
         <a :href="props.content.github" target="_blank" rel="noreferrer" @click="closeMenu">GitHub</a>

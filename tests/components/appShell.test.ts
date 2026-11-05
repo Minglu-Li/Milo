@@ -42,14 +42,31 @@ describe('application shell', () => {
     expect(wrapper.get('main h1').text()).toContain('把复杂想法做成可靠、能用的产品')
     expect(wrapper.get('[data-testid="primary-cta"]').attributes('href')).toBe('https://github.com/Minglu-Li')
     expect(wrapper.find('a[href="#projects"]').exists()).toBe(false)
-    expect(wrapper.find('[data-testid="portrait-fallback"]').text()).toBe('ML')
+    expect(wrapper.get('.personal-card__portrait img').attributes('src')).toBe('/portrait.png')
+    expect(wrapper.find('[data-testid="portrait-fallback"]').exists()).toBe(false)
     expect(wrapper.findAll('[data-testid="build-step"]')).toHaveLength(4)
   })
 
   it('shows project navigation and a project CTA when curated work is available', () => {
-    const wrapper = mountShell(makeContent())
+    const wrapper = mountShell(makeContent({
+      posts: [{
+        id: 'first-note',
+        title: { zh: '第一篇', en: 'First note' },
+        excerpt: { zh: '摘要', en: 'Excerpt' },
+        date: '2026-11-06',
+        tags: ['AI'],
+      }],
+      interests: [{
+        id: 'cycling',
+        title: { zh: '骑行', en: 'Cycling' },
+        description: { zh: '描述', en: 'Description' },
+        tags: ['life'],
+      }],
+    }))
 
     expect(wrapper.find('a[href="#projects"]').exists()).toBe(true)
+    expect(wrapper.find('a[href="#notes"]').exists()).toBe(true)
+    expect(wrapper.find('a[href="#interests"]').exists()).toBe(true)
     expect(wrapper.get('[data-testid="primary-cta"]').attributes('href')).toBe('#projects')
   })
 
@@ -66,7 +83,7 @@ describe('application shell', () => {
     const specialEmail = 'milo+jobs?priority#inbox@example.com'
     const wrapper = mountShell(makeContent({ email: specialEmail }))
 
-    expect(wrapper.get('a[href="mailto:milo%2Bjobs%3Fpriority%23inbox@example.com"]').text()).toContain('邮件')
+    expect(wrapper.get('a[href="mailto:milo%2Bjobs%3Fpriority%23inbox@example.com"]').text()).toBe(specialEmail)
   })
   it('shows initials after a configured portrait fails to load', async () => {
     const wrapper = mountShell(makeContent({ avatar: '/broken.png' }))
