@@ -8,7 +8,10 @@ const props = defineProps<{ content: SiteContent }>()
 
 const { locale, t } = useLocale()
 const portraitFailed = ref(false)
-const resumeUrl = computed(() => getResumeUrl(props.content, locale.value))
+const resumeUrl = computed(() => {
+  const path = getResumeUrl(props.content, locale.value)
+  return path ? withBasePath(path) : undefined
+})
 const email = computed(() => props.content.email?.trim() || undefined)
 const emailUrl = computed(() => email.value ? `mailto:${encodeURIComponent(email.value).replace(/%40/gi, '@')}` : undefined)
 </script>

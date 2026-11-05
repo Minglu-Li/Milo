@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import { ref } from 'vue'
 import { useLocale } from '../composables/useLocale'
+import { withBasePath } from '../content/selectors'
 import type { SiteContent } from '../content/types'
 
 const props = defineProps<{ content: SiteContent }>()
@@ -28,7 +29,7 @@ function markLogoFailed(projectId: string): void {
         <div class="project-card__cover">
           <img
             v-if="project.image && !failedImages.has(project.id)"
-            :src="project.image"
+            :src="withBasePath(project.image)"
             :alt="t(project.title)"
             @error="markImageFailed(project.id)"
           >
@@ -42,7 +43,7 @@ function markLogoFailed(projectId: string): void {
               v-if="project.logo && !failedLogos.has(project.id)"
               class="project-card__logo"
               data-testid="project-logo"
-              :src="project.logo"
+              :src="withBasePath(project.logo)"
               :alt="`${t(project.title)} ${t(props.content.ui.labels.logo)}`"
               @error="markLogoFailed(project.id)"
             >
