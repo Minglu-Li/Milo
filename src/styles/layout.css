@@ -361,6 +361,7 @@
 .project-card__links,
 .contact-section__links {
   display: flex;
+  align-items: flex-start;
   flex-wrap: wrap;
   gap: 1rem;
   margin: 0;
@@ -377,11 +378,16 @@
 .project-card__links .project-card__repo-link {
   display: inline-flex;
   align-items: center;
+  width: fit-content;
+  height: auto;
+  flex: 0 0 auto;
   min-height: 44px;
   padding: .65rem 1rem;
   border-radius: 999px;
   background: var(--color-brick);
   color: var(--color-paper);
+  white-space: nowrap;
+  writing-mode: horizontal-tb;
   text-decoration: none;
 }
 
