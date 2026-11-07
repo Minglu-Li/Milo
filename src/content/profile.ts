@@ -5,8 +5,8 @@ export const siteContent: SiteContent = {
   initials: 'ML',
   avatar: '/portrait.png',
   role: {
-    zh: 'AI Agent 应用开发者 / 全栈工程师',
-    en: 'AI Agent Application Developer / Full-stack Engineer',
+    zh: '软件开发工程师',
+    en: 'Software Development Engineer',
   },
   headline: {
     zh: '把复杂想法做成可靠、能用的产品。',
@@ -230,7 +230,7 @@ export const siteContent: SiteContent = {
       home: { zh: '首页', en: 'Home' },
       about: { zh: '关于', en: 'About' },
       projects: { zh: '项目', en: 'Projects' },
-      experience: { zh: '经历', en: 'Experience' },
+      experience: { zh: '实习经历', en: 'Internships' },
       notes: { zh: '笔记', en: 'Notes' },
       interests: { zh: '兴趣', en: 'Life' },
       capabilities: { zh: '能力', en: 'Capabilities' },
@@ -238,7 +238,7 @@ export const siteContent: SiteContent = {
     },
     sections: {
       projects: { zh: '代表项目', en: 'Selected Work' },
-      experience: { zh: '经历', en: 'Experience' },
+      experience: { zh: '实习经历', en: 'Internships' },
       notes: { zh: '笔记', en: 'Notes' },
       interests: { zh: '兴趣切片', en: 'Life Notes' },
       capabilities: { zh: '能力地图', en: 'How I Build' },

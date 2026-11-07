@@ -4,7 +4,7 @@ import { useLocale } from '../composables/useLocale'
 import { withBasePath } from '../content/selectors'
 import type { SiteContent } from '../content/types'
 
-const props = defineProps<{ content: SiteContent }>()
+const props = withDefaults(defineProps<{ content: SiteContent; compact?: boolean }>(), { compact: false })
 const { t } = useLocale()
 const failedLogos = ref(new Set<string>())
 
@@ -36,14 +36,14 @@ function markLogoFailed(experienceId: string): void {
               <span class="experience-card__period">{{ t(experience.period) }}</span>
             </div>
           </header>
-          <p class="experience-card__summary">{{ t(experience.summary) }}</p>
-          <div class="experience-card__stack">
+          <p v-if="!props.compact" class="experience-card__summary">{{ t(experience.summary) }}</p>
+          <div v-if="!props.compact" class="experience-card__stack">
             <p class="experience-card__stack-label">{{ t(props.content.ui.labels.technologies) }}</p>
             <ul class="experience-card__technologies" data-testid="experience-technologies" :aria-label="t(props.content.ui.labels.technologies)">
               <li v-for="technology in experience.technologies" :key="technology">{{ technology }}</li>
             </ul>
           </div>
-          <ul class="experience-card__achievements">
+          <ul v-if="!props.compact" class="experience-card__achievements">
             <li v-for="(achievement, index) in experience.achievements" :key="`${experience.id}-${index}`">{{ t(achievement) }}</li>
           </ul>
         </article>

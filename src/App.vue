@@ -23,7 +23,7 @@ const visibility = computed(() => deriveVisibility(siteContent, locale.value))
   <main id="main-content" tabindex="-1">
     <HeroSection :content="siteContent" />
     <ProjectsSection v-if="visibility.projects" :content="siteContent" />
-    <ExperienceSection v-if="visibility.experience" :content="siteContent" />
+    <ExperienceSection v-if="visibility.experience" :content="siteContent" compact />
     <NotesSection :content="siteContent" />
     <InterestsSection v-if="visibility.interests" :content="siteContent" />
     <CapabilitiesSection :content="siteContent" />

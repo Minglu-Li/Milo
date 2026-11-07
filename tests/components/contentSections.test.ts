@@ -110,6 +110,19 @@ describe('content sections', () => {
     expect(experience.text()).toContain('Software Engineering Intern')
   })
 
+  it('supports a compact internship list without detailed evidence', () => {
+    const experience = mountWithLocale(ExperienceSection, makeContent(), ['zh-CN'])
+    const compact = mount(ExperienceSection, {
+      props: { content: makeContent(), compact: true },
+      global: { provide: { [localeKey as symbol]: createLocaleController({ content: makeContent(), storage: null, languages: ['zh-CN'], document }) } },
+    })
+
+    expect(experience.get('.experience-card__achievements').exists()).toBe(true)
+    expect(compact.find('.experience-card__summary').exists()).toBe(false)
+    expect(compact.find('.experience-card__stack').exists()).toBe(false)
+    expect(compact.find('.experience-card__achievements').exists()).toBe(false)
+  })
+
   it('presents an experience technology stack as labelled tags', () => {
     const experience = mountWithLocale(ExperienceSection, makeContent())
 
@@ -121,7 +134,7 @@ describe('content sections', () => {
     ])
   })
 
-  it('renders the complete Bosch internship evidence in both languages', () => {
+  it('renders only the public Bosch internship summary in both languages', () => {
     const english = mountProductionApp()
     const chinese = mountProductionApp(['zh-CN'])
     const englishBosch = english.get('.experience-section__timeline > li:nth-child(1) .experience-card')
@@ -130,48 +143,16 @@ describe('content sections', () => {
     expect(englishBosch.text()).toContain('Bosch')
     expect(englishBosch.text()).toContain('Digital Manufacturing & Intelligent Strategy Intern')
     expect(englishBosch.text()).toContain('Jun 2026 – Sep 2026')
-    expect(englishBosch.text()).toContain('Prototype Order Lifecycle Management System | Sole Full-stack Developer')
-    expect(englishBosch.text()).toContain('42 users')
-    expect(englishBosch.text()).toContain('300+ TOs')
-    expect(englishBosch.text()).toContain('under 5 minutes')
-    expect(englishBosch.findAll('.experience-card__achievements > li')).toHaveLength(9)
-    expect(englishBosch.findAll('[data-testid=experience-technologies] li').map((tag) => tag.text())).toEqual([
-      'Java 8',
-      'Spring Boot 2.7',
-      'Spring Security',
-      'MyBatis-Plus',
-      'MySQL',
-      'Redis',
-      'Apache POI',
-      'Vue 3',
-      'TypeScript',
-      'Pinia',
-      'Vite',
-      'OAuth 2.0/OIDC',
-      'SMTP',
-      'Nginx',
-      'Linux',
-      'systemd',
-      'Python',
-    ])
+    expect(englishBosch.find('.experience-card__summary').exists()).toBe(false)
+    expect(englishBosch.find('.experience-card__achievements').exists()).toBe(false)
+    expect(englishBosch.find('[data-testid=experience-technologies]').exists()).toBe(false)
     expect(englishBosch.get('[data-testid=experience-logo]').attributes('src')).toBe('/logos/companies/Bosch-logo.svg')
 
     expect(chineseBosch.text()).toContain('博世')
     expect(chineseBosch.text()).toContain('数字制造与智能化战略实习生')
     expect(chineseBosch.text()).toContain('2026.06 – 2026.09')
-    expect(chineseBosch.text()).toContain('试制订单全生命周期管理系统｜独立全栈开发')
-    expect(chineseBosch.text()).toContain('42 名用户')
-    expect(chineseBosch.text()).toContain('300+ 条 TO 单')
-    expect(chineseBosch.text()).toContain('平均 5 分钟内')
-    expect(chineseBosch.findAll('.experience-card__achievements > li')).toHaveLength(9)
-
-    for (const evidence of ['four product categories', 'Apache POI', 'QR code generation', 'field-level audit logs', 'database unique constraints', 'Microsoft JWKS', 'BFF-style', 'no major business incidents', 'Windows Credential Manager']) {
-      expect(englishBosch.text()).toContain(evidence)
-    }
-
-    for (const evidence of ['四类产品', 'Apache POI', '二维码生成', '字段级审计日志', '数据库唯一约束', 'Microsoft JWKS', 'BFF 式', '无重大业务故障', 'Windows Credential Manager']) {
-      expect(chineseBosch.text()).toContain(evidence)
-    }
+    expect(chineseBosch.find('.experience-card__summary').exists()).toBe(false)
+    expect(chineseBosch.find('.experience-card__achievements').exists()).toBe(false)
   })
 
   it('renders the Digiwin AI application internship below Bosch in both languages', () => {
@@ -187,34 +168,17 @@ describe('content sections', () => {
     expect(englishDigiwin.text()).toContain('Digiwin')
     expect(englishDigiwin.text()).toContain('AI Application Development Intern')
     expect(englishDigiwin.text()).toContain('Sep 2025 – May 2026')
-    expect(englishDigiwin.text()).toContain('enterprise talent competency assessment')
-    expect(englishDigiwin.text()).toContain('F1 score from 73% to 92%')
-    expect(englishDigiwin.text()).toContain('Top-3 acceptance rate to 90%')
-    expect(englishDigiwin.text()).toContain('from 30 seconds to 15 seconds')
-    expect(englishDigiwin.text()).toContain('LangChain callbacks')
-    expect(englishDigiwin.text()).toContain('thread pool')
-    expect(englishDigiwin.findAll('.experience-card__achievements > li')).toHaveLength(6)
-    expect(englishDigiwin.findAll('[data-testid=experience-technologies] li').map((tag) => tag.text())).toEqual([
-      'Python',
-      'FastAPI',
-      'LangChain',
-      'LangGraph',
-      'MySQL',
-      'Chroma',
-    ])
+    expect(englishDigiwin.find('.experience-card__summary').exists()).toBe(false)
+    expect(englishDigiwin.find('.experience-card__achievements').exists()).toBe(false)
+    expect(englishDigiwin.find('[data-testid=experience-technologies]').exists()).toBe(false)
     expect(englishDigiwin.get('[data-testid=experience-logo]').attributes('src')).toBe('/logos/companies/digiwin.svg')
     expect(englishDigiwin.get('[data-testid=experience-logo]').attributes('alt')).toBe('Digiwin logo')
 
     expect(chineseDigiwin.text()).toContain('鼎捷数智')
     expect(chineseDigiwin.text()).toContain('AI 应用开发实习生')
     expect(chineseDigiwin.text()).toContain('2025.09 – 2026.05')
-    expect(chineseDigiwin.text()).toContain('企业人才能力评估')
-    expect(chineseDigiwin.text()).toContain('F1-score 从 73% 提升至 92%')
-    expect(chineseDigiwin.text()).toContain('Top-3 接受率达到 90%')
-    expect(chineseDigiwin.text()).toContain('从 30 秒降低至 15 秒')
-    expect(chineseDigiwin.text()).toContain('LangChain Callback')
-    expect(chineseDigiwin.text()).toContain('线程池')
-    expect(chineseDigiwin.findAll('.experience-card__achievements > li')).toHaveLength(6)
+    expect(chineseDigiwin.find('.experience-card__summary').exists()).toBe(false)
+    expect(chineseDigiwin.find('.experience-card__achievements').exists()).toBe(false)
   })
 
   it('renders project and company logos with localized alternative text', () => {
