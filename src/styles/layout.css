@@ -270,11 +270,16 @@
   min-height: 100%;
 }
 
-.project-card__cover > img,
 .project-card__cover > .project-card__blueprint {
   width: 100%;
   height: 100%;
   object-fit: cover;
+}
+
+.project-card__cover > img {
+  width: 86%;
+  height: 86%;
+  object-fit: contain;
 }
 
 .project-card__logo {
@@ -367,6 +372,21 @@
 .contact-section__links a {
   color: var(--color-brick-dark);
   font-weight: 700;
+}
+
+.project-card__links .project-card__repo-link {
+  display: inline-flex;
+  align-items: center;
+  min-height: 44px;
+  padding: .65rem 1rem;
+  border-radius: 999px;
+  background: var(--color-brick);
+  color: var(--color-paper);
+  text-decoration: none;
+}
+
+.project-card__links .project-card__repo-link:hover {
+  background: var(--color-brick-dark);
 }
 
 .experience-section__timeline {

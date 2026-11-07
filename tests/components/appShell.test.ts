@@ -56,7 +56,9 @@ describe('application shell', () => {
     expect(wrapper.get('[data-testid="project-card"] h3').text()).toBe('DeckDOM')
     expect(wrapper.get('[data-testid="project-card"]').text()).toContain('点击 GitHub 查看项目详情')
     expect(wrapper.get('[data-testid="project-card"] img').attributes('src')).toBe('/projects/deckdom.png')
-    expect(wrapper.get('a[href="https://github.com/Minglu-Li/DeckDOM"]').attributes('target')).toBe('_blank')
+    const repositoryLink = wrapper.get('a[href="https://github.com/Minglu-Li/DeckDOM"]')
+    expect(repositoryLink.attributes('target')).toBe('_blank')
+    expect(repositoryLink.classes()).toContain('project-card__repo-link')
   })
 
   it('shows project navigation and a project CTA when curated work is available', () => {

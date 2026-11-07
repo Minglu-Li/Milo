@@ -59,7 +59,7 @@ function markLogoFailed(projectId: string): void {
             <li v-for="technology in project.technologies" :key="technology">{{ technology }}</li>
           </ul>
           <p class="project-card__links">
-            <a v-if="project.repository" :href="project.repository" target="_blank" rel="noreferrer">{{ t(props.content.ui.labels.repository) }}</a>
+            <a v-if="project.repository" class="project-card__repo-link" :href="project.repository" target="_blank" rel="noreferrer">{{ t(props.content.ui.labels.repository) }}</a>
             <a v-if="project.demo" :href="project.demo" target="_blank" rel="noreferrer">{{ t(props.content.ui.labels.demo) }}</a>
           </p>
         </div>
