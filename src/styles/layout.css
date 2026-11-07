@@ -241,11 +241,21 @@
 
 .project-card__cover,
 .note-card > img,
-.interest-card > img {
+.interest-card > img,
+.content-card__image-fallback {
   width: 100%;
   aspect-ratio: 16 / 8;
   object-fit: cover;
   background: var(--color-wash);
+}
+
+.content-card__image-fallback {
+  display: grid;
+  place-items: center;
+  padding: 1.5rem;
+  color: var(--color-muted);
+  font: 700 1.15rem var(--font-display);
+  text-align: center;
 }
 
 .project-card__cover {

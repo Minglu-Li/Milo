@@ -24,7 +24,7 @@ function toggleLocale(): void {
 
 <template>
   <header class="site-header" data-testid="site-header">
-    <nav class="site-header__nav" aria-label="Primary">
+    <nav class="site-header__nav" :aria-label="t(props.content.ui.nav.home)">
       <a class="site-header__brand" href="#main-content" @click="closeMenu">{{ props.content.name }}</a>
       <button
         class="site-header__menu"
@@ -37,9 +37,11 @@ function toggleLocale(): void {
         {{ t(props.content.ui.menu) }}
       </button>
       <div id="primary-navigation" class="site-header__links" :class="{ 'is-open': menuOpen }">
+        <a href="#main-content" @click="closeMenu">{{ t(props.content.ui.nav.home) }}</a>
+        <a href="#about" @click="closeMenu">{{ t(props.content.ui.nav.about) }}</a>
         <a v-if="props.visibility.projects" href="#projects" @click="closeMenu">{{ t(props.content.ui.nav.projects) }}</a>
         <a v-if="props.visibility.experience" href="#experience" @click="closeMenu">{{ t(props.content.ui.nav.experience) }}</a>
-        <a v-if="props.visibility.notes" href="#notes" @click="closeMenu">{{ t(props.content.ui.nav.notes) }}</a>
+        <a href="#notes" @click="closeMenu">{{ t(props.content.ui.nav.notes) }}</a>
         <a v-if="props.visibility.interests" href="#interests" @click="closeMenu">{{ t(props.content.ui.nav.interests) }}</a>
         <a href="#capabilities" @click="closeMenu">{{ t(props.content.ui.nav.capabilities) }}</a>
         <a v-if="props.visibility.contact" href="#contact" @click="closeMenu">{{ t(props.content.ui.nav.contact) }}</a>

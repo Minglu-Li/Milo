@@ -168,8 +168,11 @@ export function validateContent(content: SiteContent): string[] {
 
   validateLocalizedText(content.contactPrompt, 'contactPrompt', errors)
 
-  for (const key of ['projects', 'experience', 'capabilities', 'contact'] as const) {
+  for (const key of ['home', 'about', 'projects', 'experience', 'capabilities', 'contact'] as const) {
     validateLocalizedText(content.ui.nav[key], `ui.nav.${key}`, errors)
+  }
+
+  for (const key of ['projects', 'experience', 'capabilities', 'contact'] as const) {
     validateLocalizedText(content.ui.sections[key], `ui.sections.${key}`, errors)
   }
 

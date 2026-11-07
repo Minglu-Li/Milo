@@ -88,7 +88,7 @@ export interface SiteContent {
   buildSteps: BuildStep[]
   contactPrompt: LocalizedText
   ui: {
-    nav: Record<'projects' | 'experience' | 'notes' | 'interests' | 'capabilities' | 'contact', LocalizedText>
+    nav: Record<'home' | 'about' | 'projects' | 'experience' | 'notes' | 'interests' | 'capabilities' | 'contact', LocalizedText>
     sections: Record<'projects' | 'experience' | 'notes' | 'interests' | 'capabilities' | 'contact', LocalizedText>
     labels: Record<'problem' | 'contribution' | 'result' | 'repository' | 'demo' | 'logo' | 'technologies', LocalizedText>
     actions: Record<'viewProjects' | 'visitGitHub' | 'viewResume' | 'emailMe', LocalizedText>

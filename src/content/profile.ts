@@ -227,9 +227,11 @@ export const siteContent: SiteContent = {
   },
   ui: {
     nav: {
+      home: { zh: '首页', en: 'Home' },
+      about: { zh: '关于', en: 'About' },
       projects: { zh: '项目', en: 'Projects' },
       experience: { zh: '经历', en: 'Experience' },
-      notes: { zh: '文章', en: 'Notes' },
+      notes: { zh: '笔记', en: 'Notes' },
       interests: { zh: '兴趣', en: 'Life' },
       capabilities: { zh: '能力', en: 'Capabilities' },
       contact: { zh: '联系', en: 'Contact' },
@@ -237,7 +239,7 @@ export const siteContent: SiteContent = {
     sections: {
       projects: { zh: '代表项目', en: 'Selected Work' },
       experience: { zh: '经历', en: 'Experience' },
-      notes: { zh: '文章', en: 'Notes' },
+      notes: { zh: '笔记', en: 'Notes' },
       interests: { zh: '兴趣切片', en: 'Life Notes' },
       capabilities: { zh: '能力地图', en: 'How I Build' },
       contact: { zh: '联系', en: 'Contact' },
@@ -262,7 +264,7 @@ export const siteContent: SiteContent = {
     skipToContent: { zh: '跳到主要内容', en: 'Skip to main content' },
   },
   seo: {
-    title: { zh: 'Milo · AI Agent 与全栈开发', en: 'Milo · AI Agent & Full-stack Development' },
+    title: { zh: 'Milo', en: 'Milo' },
     description: {
       zh: 'Milo 是一名专注 AI Agent 应用的全栈开发者，擅长把复杂想法做成可靠、能用的产品。',
       en: 'Milo is a full-stack developer focused on AI Agent applications and reliable, usable products.',

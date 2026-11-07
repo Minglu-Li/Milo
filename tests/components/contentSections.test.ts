@@ -73,6 +73,25 @@ describe('content sections', () => {
     expect(interests.get('a[href="https://example.com/cycling"]').attributes('target')).toBe('_blank')
   })
 
+  it('falls back to a readable card surface when optional media fails', async () => {
+    const content = makeContent({
+      posts: [{ id: 'broken-note', title: { zh: '文章', en: 'Broken note' }, excerpt: { zh: '摘要', en: 'Excerpt' }, date: '2026-11-06', tags: [], image: '/missing-note.png' }],
+      interests: [{ id: 'broken-interest', title: { zh: '兴趣', en: 'Broken interest' }, description: { zh: '描述', en: 'Description' }, tags: [], image: '/missing-interest.png' }],
+    })
+    const notes = mountWithLocale(NotesSection, content)
+    const interests = mountWithLocale(InterestsSection, content)
+
+    await notes.get('img').trigger('error')
+    await interests.get('img').trigger('error')
+    expect(notes.get('[data-testid="note-image-fallback"]').text()).toContain('Broken note')
+    expect(interests.get('[data-testid="interest-image-fallback"]').text()).toContain('Broken interest')
+  })
+
+  it('does not render an empty profile metadata landmark', () => {
+    const card = mountWithLocale(PersonalCard, makeContent())
+    expect(card.find('.personal-card__meta').exists()).toBe(false)
+  })
+
   it('renders configured projects with safe repository links', () => {
     const projects = mountWithLocale(ProjectsSection, makeContent())
 
@@ -298,7 +317,7 @@ describe('content sections', () => {
     expect(app.find('#projects').exists()).toBe(false)
     expect(app.find('#experience').exists()).toBe(true)
     expect(app.find('#contact').exists()).toBe(false)
-    expect(app.find('#notes').exists()).toBe(false)
+    expect(app.find('#notes').exists()).toBe(true)
     expect(app.find('#interests').exists()).toBe(false)
     expect(app.find('#capabilities').exists()).toBe(true)
   })

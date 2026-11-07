@@ -17,7 +17,7 @@ const emailUrl = computed(() => email.value ? `mailto:${encodeURIComponent(email
 </script>
 
 <template>
-  <aside class="personal-card" data-testid="personal-card" aria-label="Personal profile">
+  <aside id="about" class="personal-card" data-testid="personal-card" :aria-label="locale === 'zh' ? '个人简介' : 'Personal profile'">
     <div class="personal-card__portrait">
       <img
         v-if="props.content.avatar && !portraitFailed"
@@ -28,11 +28,11 @@ const emailUrl = computed(() => email.value ? `mailto:${encodeURIComponent(email
       <span v-else class="personal-card__portrait-fallback" data-testid="portrait-fallback">{{ props.content.initials }}</span>
     </div>
     <div class="personal-card__identity">
-      <p class="personal-card__eyebrow">Personal site</p>
+      <p class="personal-card__eyebrow">{{ locale === 'zh' ? '个人主页' : 'Personal site' }}</p>
       <h2>{{ props.content.name }}</h2>
       <p class="personal-card__role">{{ t(props.content.role) }}</p>
     </div>
-    <dl class="personal-card__meta">
+    <dl v-if="props.content.location || props.content.status" class="personal-card__meta">
       <template v-if="props.content.location">
         <dt>{{ locale === 'zh' ? '所在地' : 'Based in' }}</dt>
         <dd>{{ t(props.content.location) }}</dd>

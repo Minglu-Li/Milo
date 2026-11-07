@@ -31,7 +31,7 @@ describe('locale controller', () => {
     expect(controller.locale.value).toBe('en')
     expect(saved).toEqual(['en'])
     expect(document.documentElement.lang).toBe('en')
-    expect(document.title).toBe(content.seo.title.en)
+    expect(document.title).toBe('Milo')
     expect(document.querySelector('meta[name="description"]')?.getAttribute('content')).toBe(content.seo.description.en)
     expect(document.querySelector('meta[property="og:title"]')?.getAttribute('content')).toBe(content.seo.title.en)
   })

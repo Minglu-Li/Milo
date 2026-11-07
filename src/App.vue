@@ -24,7 +24,7 @@ const visibility = computed(() => deriveVisibility(siteContent, locale.value))
     <HeroSection :content="siteContent" />
     <ProjectsSection v-if="visibility.projects" :content="siteContent" />
     <ExperienceSection v-if="visibility.experience" :content="siteContent" />
-    <NotesSection v-if="visibility.notes" :content="siteContent" />
+    <NotesSection :content="siteContent" />
     <InterestsSection v-if="visibility.interests" :content="siteContent" />
     <CapabilitiesSection :content="siteContent" />
     <ContactSection v-if="visibility.contact" :content="siteContent" />
