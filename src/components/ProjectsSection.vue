@@ -49,7 +49,7 @@ function markLogoFailed(projectId: string): void {
             >
             <h3>{{ t(project.title) }}</h3>
           </div>
-          <p v-if="!project.compact">{{ t(project.summary) }}</p>
+          <p>{{ t(project.summary) }}</p>
           <dl v-if="!project.compact" class="project-card__details">
             <div><dt>{{ t(props.content.ui.labels.problem) }}</dt><dd>{{ t(project.problem) }}</dd></div>
             <div><dt>{{ t(props.content.ui.labels.contribution) }}</dt><dd>{{ t(project.contribution) }}</dd></div>

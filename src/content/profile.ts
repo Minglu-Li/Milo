@@ -23,7 +23,7 @@ export const siteContent: SiteContent = {
       id: 'deckdom',
       compact: true,
       title: { zh: 'DeckDOM', en: 'DeckDOM' },
-      summary: { zh: 'DeckDOM 项目', en: 'DeckDOM project' },
+      summary: { zh: 'DeckDOM 项目仓库，点击 GitHub 查看项目详情。', en: 'DeckDOM project repository. Visit GitHub for details.' },
       problem: { zh: '项目介绍待补充', en: 'Project details coming soon' },
       contribution: { zh: '项目介绍待补充', en: 'Project details coming soon' },
       result: { zh: '项目介绍待补充', en: 'Project details coming soon' },

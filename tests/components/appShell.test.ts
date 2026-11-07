@@ -54,6 +54,7 @@ describe('application shell', () => {
 
     expect(wrapper.get('#projects')).toBeTruthy()
     expect(wrapper.get('[data-testid="project-card"] h3').text()).toBe('DeckDOM')
+    expect(wrapper.get('[data-testid="project-card"]').text()).toContain('点击 GitHub 查看项目详情')
     expect(wrapper.get('[data-testid="project-card"] img').attributes('src')).toBe('/projects/deckdom.png')
     expect(wrapper.get('a[href="https://github.com/Minglu-Li/DeckDOM"]').attributes('target')).toBe('_blank')
   })
