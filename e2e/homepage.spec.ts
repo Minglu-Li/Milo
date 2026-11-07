@@ -21,6 +21,17 @@ test('leads with the personal card and keeps the process strip out of the homepa
   await expect(page.locator('.build-trace')).toHaveCount(0)
 })
 
+test('presents project cards with the image beside the project copy on desktop', async ({ page }, testInfo) => {
+  test.skip(testInfo.project.name === 'mobile', 'The mobile layout intentionally stacks the card.')
+  await page.goto('/')
+  const cover = page.locator('.project-card__cover')
+  const body = page.locator('.project-card__body')
+  const positions = await Promise.all([cover, body].map((locator) => locator.boundingBox()))
+
+  expect(positions[0]?.x).toBeLessThan(positions[1]?.x ?? Number.POSITIVE_INFINITY)
+  expect(Math.abs((positions[0]?.y ?? 0) - (positions[1]?.y ?? 0))).toBeLessThanOrEqual(2)
+})
+
 test('avoids an orphan line in the desktop Chinese hero heading', async ({ page }, testInfo) => {
   test.skip(testInfo.project.name === 'mobile', 'The mobile layout intentionally wraps the headline more freely.')
   await page.addInitScript(() => localStorage.setItem('milo.locale', 'zh'))
