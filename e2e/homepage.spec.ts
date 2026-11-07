@@ -195,6 +195,8 @@ test('operates the mobile menu and locale switch with the keyboard', async ({ pa
   await page.keyboard.press('Tab')
   await expect(page.locator('a[href="#about"]')).toBeFocused()
   await page.keyboard.press('Tab')
+  await expect(page.locator('.site-header__links a[href="#projects"]')).toBeFocused()
+  await page.keyboard.press('Tab')
   await expect(page.locator('a[href="#experience"]')).toBeFocused()
   await page.keyboard.press('Tab')
   await expect(page.locator('a[href="#notes"]')).toBeFocused()

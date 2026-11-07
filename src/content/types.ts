@@ -32,6 +32,7 @@ export interface Interest {
 
 export interface Project {
   id: string
+  compact?: boolean
   title: LocalizedText
   summary: LocalizedText
   problem: LocalizedText

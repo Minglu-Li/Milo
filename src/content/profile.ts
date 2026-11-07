@@ -18,7 +18,20 @@ export const siteContent: SiteContent = {
   },
   github: 'https://github.com/Minglu-Li',
   resumes: {},
-  projects: [],
+  projects: [
+    {
+      id: 'deckdom',
+      compact: true,
+      title: { zh: 'DeckDOM', en: 'DeckDOM' },
+      summary: { zh: 'DeckDOM 项目', en: 'DeckDOM project' },
+      problem: { zh: '项目介绍待补充', en: 'Project details coming soon' },
+      contribution: { zh: '项目介绍待补充', en: 'Project details coming soon' },
+      result: { zh: '项目介绍待补充', en: 'Project details coming soon' },
+      technologies: [],
+      repository: 'https://github.com/Minglu-Li/DeckDOM',
+      image: '/projects/deckdom.png',
+    },
+  ],
   posts: [],
   interests: [],
   experiences: [

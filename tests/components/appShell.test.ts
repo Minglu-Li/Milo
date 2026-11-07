@@ -32,14 +32,14 @@ function mountShell(content: SiteContent) {
 }
 
 describe('application shell', () => {
-  it('keeps unavailable production content out of the header and falls back to GitHub', () => {
+  it('shows the configured production project and keeps unavailable sections out of the header', () => {
     const controller = createController(siteContent)
     const wrapper = mount(App, { global: { provide: { [localeKey as symbol]: controller } } })
 
     expect(wrapper.get('header').attributes('data-testid')).toBe('site-header')
     expect(wrapper.get('main h1').text()).toContain('把复杂想法做成可靠、能用的产品')
-    expect(wrapper.get('[data-testid="primary-cta"]').attributes('href')).toBe('https://github.com/Minglu-Li')
-    expect(wrapper.find('a[href="#projects"]').exists()).toBe(false)
+    expect(wrapper.get('[data-testid="primary-cta"]').attributes('href')).toBe('#projects')
+    expect(wrapper.find('a[href="#projects"]').exists()).toBe(true)
     expect(wrapper.find('a[href="#notes"]').exists()).toBe(true)
     expect(wrapper.find('#notes').exists()).toBe(true)
     expect(wrapper.find('a[href="#main-content"]').exists()).toBe(true)
@@ -47,6 +47,15 @@ describe('application shell', () => {
     expect(wrapper.get('.personal-card__portrait img').attributes('src')).toBe('/portrait.png')
     expect(wrapper.find('[data-testid="portrait-fallback"]').exists()).toBe(false)
     expect(wrapper.find('.build-trace').exists()).toBe(false)
+  })
+
+  it('shows the configured DeckDOM project card and repository link', () => {
+    const wrapper = mount(App, { global: { provide: { [localeKey as symbol]: createController(siteContent) } } })
+
+    expect(wrapper.get('#projects')).toBeTruthy()
+    expect(wrapper.get('[data-testid="project-card"] h3').text()).toBe('DeckDOM')
+    expect(wrapper.get('[data-testid="project-card"] img').attributes('src')).toBe('/projects/deckdom.png')
+    expect(wrapper.get('a[href="https://github.com/Minglu-Li/DeckDOM"]').attributes('target')).toBe('_blank')
   })
 
   it('shows project navigation and a project CTA when curated work is available', () => {

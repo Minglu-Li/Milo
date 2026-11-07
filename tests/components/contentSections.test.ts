@@ -278,7 +278,7 @@ describe('content sections', () => {
     const controller = createLocaleController({ content: siteContent, storage: null, languages: ['en-US'], document })
     const app = mount(App, { global: { provide: { [localeKey as symbol]: controller } } })
 
-    expect(app.find('#projects').exists()).toBe(false)
+    expect(app.find('#projects').exists()).toBe(true)
     expect(app.find('#experience').exists()).toBe(true)
     expect(app.find('#contact').exists()).toBe(false)
     expect(app.find('#notes').exists()).toBe(true)
