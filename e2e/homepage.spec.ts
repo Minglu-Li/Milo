@@ -173,9 +173,9 @@ test('switches visible metadata and copy to English', async ({ page }) => {
   await expect(page.locator('h1')).toContainText('I turn complex ideas')
   await expect(page.locator('#capabilities')).toContainText('Reinforcement Learning')
   await expect(page.locator('#capabilities')).not.toContainText('强化学习')
-  await expect(page).toHaveTitle(/AI Agent & Full-stack Development/)
+  await expect(page).toHaveTitle('Milo')
   await expect(page.locator('meta[name="description"]')).toHaveAttribute('content', /Milo is a full-stack developer/)
-  await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', /AI Agent & Full-stack Development/)
+  await expect(page.locator('meta[property="og:title"]')).toHaveAttribute('content', 'Milo')
 })
 
 test('operates the mobile menu and locale switch with the keyboard', async ({ page }) => {
@@ -191,7 +191,13 @@ test('operates the mobile menu and locale switch with the keyboard', async ({ pa
   await expect(page.locator('[data-testid="menu-button"]')).toHaveAttribute('aria-expanded', 'true')
 
   await page.keyboard.press('Tab')
+  await expect(page.locator('.site-header__links a[href="#main-content"]')).toBeFocused()
+  await page.keyboard.press('Tab')
+  await expect(page.locator('a[href="#about"]')).toBeFocused()
+  await page.keyboard.press('Tab')
   await expect(page.locator('a[href="#experience"]')).toBeFocused()
+  await page.keyboard.press('Tab')
+  await expect(page.locator('a[href="#notes"]')).toBeFocused()
   await page.keyboard.press('Tab')
   await expect(page.locator('a[href="#capabilities"]')).toBeFocused()
   await page.keyboard.press('Tab')
